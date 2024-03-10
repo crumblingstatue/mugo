@@ -122,6 +122,7 @@ fn test_deconjugate() {
         // Verb stems
         "かけめぐり" => "かけめぐ" GodanRu:
         "もやし" => "もや" GodanSu:
+        "ふりむき" => "ふりむ" GodanKu:
         // い Adjectives
         "はやく" => "はや" IAdjective: AdverbialKu
         // い past

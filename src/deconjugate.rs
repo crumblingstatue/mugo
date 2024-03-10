@@ -48,8 +48,19 @@ fn deconj_expr(mut chars: Vec<char>, roots: &mut Vec<Root>, steps: Vec<Step>) {
         'な' => deconj_na(roots, chars, steps),
         'し' => deconj_shi(roots, chars, steps),
         'せ' => deconj_se(roots, chars, steps),
+        'き' => deconj_ki(roots, chars, steps),
         _ => {}
     }
+}
+
+fn deconj_ki(roots: &mut Vec<Root>, chars: Vec<char>, steps: Vec<Step>) {
+    debug!("deconj_ki");
+    // Godan ku verb stem
+    roots.push(Root {
+        text: chars.to_string(),
+        kind: RootKind::GodanKu,
+        steps,
+    });
 }
 
 fn deconj_se(roots: &mut Vec<Root>, chars: Vec<char>, mut steps: Vec<Step>) {
