@@ -1,7 +1,7 @@
 /// A possible root word.
 ///
 /// You must use a dictionary to look up whether this is an actual word or not
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Clone)]
 pub struct Root {
     pub text: String,
     pub kind: RootKind,
