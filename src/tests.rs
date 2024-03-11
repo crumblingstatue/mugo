@@ -30,11 +30,14 @@ fn test_deconjugate() {
         "しんで" => "し" GodanNu: Te
         "のばして" => "のば" GodanSu: Te
         "いって" => "い" Iku: Te
+        "あいして" => "あい" Suru: Te
         // ない
         "わからない" => "わか" GodanRu: Nai
         "およがない" => "およ" GodanGu: Nai
         "ならばない" => "なら" GodanBu: Nai
         "わたさないで" => "わた" GodanSu: Naide
+        "しんぱいしないで" => "しんぱい" Suru: Naide
+        "しんぱいしないで" => "しんぱい" SpecialSuru: Naide
         // なかった
         "ならわなかった" => "なら" GodanU: Nakatta
         "こまなかった" => "こ" GodanMu: Nakatta
@@ -82,6 +85,10 @@ fn test_deconjugate() {
         // てる/ている
         "いきている" => "いき" Ichidan: Te Continuous
         "いきてる" =>  "いき" Ichidan: Te ContRuAbbrev
+        "あいしてる" => "あい" Suru: Te ContRuAbbrev
+        "あいしてる" => "あい" SpecialSuru: Te ContRuAbbrev
+        "こいしてる" => "こい" Suru: Te ContRuAbbrev
+        "こいしてる" => "こい" SpecialSuru: Te ContRuAbbrev
         // くる (irregular)
         "きます" => "き" Kuru: Masu
         "きました" => "き" Kuru: Masu Ta
@@ -167,6 +174,10 @@ fn test_conj() {
         "し" GodanNu: Chau Ta => "んじゃった"
         "とびこ" GodanMu: Naide => "まないで"
         "つまらな" IAdjective: Katta => "かった"
+        "そうじ" Suru: Volitional => "しよう"
+        "そうじ" SpecialSuru: Volitional => "しよう"
+        "いいかげんに" Suru: Imperative => "しろ"
+        "いいかげんに" SpecialSuru: Imperative => "しろ"
     }
 }
 
@@ -185,6 +196,8 @@ fn test_dict() {
         "い" GodanKu => "いく"
         "い" Iku => "いく"
         "かり" Ichidan => "かりる"
+        "こい" Suru => "こいする"
+        "あい" SpecialSuru => "あいする"
     }
 }
 

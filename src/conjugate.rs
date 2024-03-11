@@ -61,6 +61,7 @@ impl Root {
                     RootKind::GodanKu | RootKind::Iku => text.push_str("こう"),
                     RootKind::IAdjective => todo!(),
                     RootKind::NaAdjective => todo!(),
+                    RootKind::Suru | RootKind::SpecialSuru => text.push_str("しよう"),
                 },
                 Step::AdverbialKu => text.push('く'),
                 Step::Imperative => match kind {
@@ -77,6 +78,7 @@ impl Root {
                     RootKind::IAdjective => todo!(),
                     RootKind::Kuru => text.push('い'),
                     RootKind::NaAdjective => todo!(),
+                    RootKind::Suru | RootKind::SpecialSuru => text.push_str("しろ"),
                 },
                 Step::Masu | Step::Masen => {
                     push_masu_root(kind, &mut text);
@@ -168,6 +170,8 @@ fn te_char(kind: RootKind) -> char {
         | RootKind::GodanTsu
         | RootKind::GodanSu
         | RootKind::GodanRu
+        | RootKind::Suru
+        | RootKind::SpecialSuru
         | RootKind::Ichidan => 'て',
         RootKind::GodanGu | RootKind::GodanNu | RootKind::GodanMu | RootKind::GodanBu => 'で',
         RootKind::NaAdjective => todo!(),
@@ -176,7 +180,11 @@ fn te_char(kind: RootKind) -> char {
 
 fn push_te_root(kind: RootKind, text: &mut String) {
     match kind {
-        RootKind::Ichidan | RootKind::Kuru | RootKind::IAdjective => {}
+        RootKind::Ichidan
+        | RootKind::Kuru
+        | RootKind::IAdjective
+        | RootKind::Suru
+        | RootKind::SpecialSuru => {}
         RootKind::GodanBu | RootKind::GodanMu | RootKind::GodanNu => text.push('ん'),
         RootKind::GodanRu | RootKind::GodanTsu | RootKind::GodanU | RootKind::Iku => {
             text.push('っ')
@@ -199,6 +207,8 @@ fn push_chau_root(kind: RootKind, text: &mut String) {
         | RootKind::GodanRu
         | RootKind::Ichidan
         | RootKind::Iku
+        | RootKind::Suru
+        | RootKind::SpecialSuru
         | RootKind::Kuru => text.push_str("ちゃ"),
         RootKind::IAdjective | RootKind::NaAdjective => {}
     }
@@ -219,6 +229,7 @@ fn push_e_root(kind: RootKind, text: &mut String) {
         RootKind::Kuru => text.push_str("られ"),
         RootKind::IAdjective => todo!(),
         RootKind::NaAdjective => todo!(),
+        RootKind::Suru | RootKind::SpecialSuru => todo!("できる special case needed(?)"),
     }
 }
 
@@ -238,6 +249,7 @@ fn push_neg_root(kind: RootKind, text: &mut String) {
         RootKind::Kuru => {}
         RootKind::IAdjective => todo!(),
         RootKind::NaAdjective => todo!(),
+        RootKind::Suru | RootKind::SpecialSuru => text.push('し'),
     }
 }
 
@@ -246,7 +258,7 @@ fn push_ta(kind: RootKind, text: &mut String) {
         RootKind::Ichidan | RootKind::Kuru => text.push('た'),
         RootKind::GodanBu | RootKind::GodanMu | RootKind::GodanNu => text.push_str("んだ"),
         RootKind::GodanRu | RootKind::GodanTsu | RootKind::Iku => text.push_str("った"),
-        RootKind::GodanSu => text.push_str("した"),
+        RootKind::GodanSu | RootKind::Suru | RootKind::SpecialSuru => text.push_str("した"),
         RootKind::GodanU => text.push_str("った"),
         RootKind::GodanGu => text.push_str("いだ"),
         RootKind::GodanKu => text.push_str("いた"),

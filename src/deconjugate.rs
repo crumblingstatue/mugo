@@ -370,6 +370,19 @@ fn push_godan_negative_root(chars: Vec<char>, roots: &mut Vec<Root>, steps: Vec<
                 steps,
             });
         }
+        Some('し') => {
+            // Suru verb... Technically not godan, but oh well...
+            roots.push(Root {
+                text: chars.init().to_string(),
+                kind: RootKind::Suru,
+                steps: steps.clone(),
+            });
+            roots.push(Root {
+                text: chars.init().to_string(),
+                kind: RootKind::SpecialSuru,
+                steps,
+            });
+        }
         _ => return false,
     }
     true
@@ -410,7 +423,7 @@ fn push_te_root(roots: &mut Vec<Root>, chars: Vec<char>, steps: Vec<Step>) {
             });
         }
         Some('い') => {
-            // Godan ku te
+            // Godan u
             roots.push(Root {
                 text: chars.init().to_string(),
                 kind: RootKind::GodanKu,
@@ -418,10 +431,21 @@ fn push_te_root(roots: &mut Vec<Root>, chars: Vec<char>, steps: Vec<Step>) {
             });
         }
         Some('し') => {
-            // Godan ku te
+            // Godan su
             roots.push(Root {
                 text: chars.init().to_string(),
                 kind: RootKind::GodanSu,
+                steps: steps.clone(),
+            });
+            // Suru
+            roots.push(Root {
+                text: chars.init().to_string(),
+                kind: RootKind::Suru,
+                steps: steps.clone(),
+            });
+            roots.push(Root {
+                text: chars.init().to_string(),
+                kind: RootKind::SpecialSuru,
                 steps,
             });
         }

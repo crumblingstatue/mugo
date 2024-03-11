@@ -25,6 +25,10 @@ pub enum RootKind {
     Iku,
     /// Irregular 来る
     Kuru,
+    /// Suru verb
+    Suru,
+    /// Special suru verbs (they conjugate differently in some cases?)
+    SpecialSuru,
     IAdjective,
     NaAdjective,
 }
@@ -102,6 +106,7 @@ impl Root {
                 txt.pop();
                 txt.push_str("くる")
             }
+            RootKind::Suru | RootKind::SpecialSuru => txt.push_str("する"),
             RootKind::NaAdjective => {}
         };
         txt
