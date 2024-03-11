@@ -31,6 +31,7 @@ fn test_deconjugate() {
         "のばして" => "のば" GodanSu: Te
         "いって" => "い" Iku: Te
         "あいして" => "あい" Suru: Te
+        "こいしてる" => "こい" SpecialSuru: Te ContRuAbbrev
         // ない
         "わからない" => "わか" GodanRu: Nai
         "およがない" => "およ" GodanGu: Nai
@@ -178,6 +179,7 @@ fn test_conj() {
         SpecialSuru: Volitional => "しよう"
         Suru: Imperative => "しろ"
         SpecialSuru: Imperative => "しろ"
+        SpecialSuru: Te ContRuAbbrev => "してる"
     }
 }
 

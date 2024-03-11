@@ -21,6 +21,7 @@ impl Root {
                 let prev = &self.steps[i - 1];
                 prev.root_kind()
             };
+            debug!("kind: {kind:?}");
             let Some(kind) = kind else {
                 debug!("No root kind, special case spaghetti code:");
                 match step {
@@ -179,12 +180,9 @@ fn te_char(kind: RootKind) -> char {
 }
 
 fn push_te_root(kind: RootKind, text: &mut String) {
+    debug!("push_te_root");
     match kind {
-        RootKind::Ichidan
-        | RootKind::Kuru
-        | RootKind::IAdjective
-        | RootKind::Suru
-        | RootKind::SpecialSuru => {}
+        RootKind::Ichidan | RootKind::Kuru | RootKind::IAdjective => {}
         RootKind::GodanBu | RootKind::GodanMu | RootKind::GodanNu => text.push('ん'),
         RootKind::GodanRu | RootKind::GodanTsu | RootKind::GodanU | RootKind::Iku => {
             text.push('っ')
@@ -192,6 +190,9 @@ fn push_te_root(kind: RootKind, text: &mut String) {
         RootKind::GodanSu => text.push('し'),
         RootKind::GodanGu | RootKind::GodanKu => text.push('い'),
         RootKind::NaAdjective => todo!(),
+        RootKind::Suru | RootKind::SpecialSuru => {
+            text.push('し');
+        }
     }
 }
 
