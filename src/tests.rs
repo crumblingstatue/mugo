@@ -146,38 +146,38 @@ fn test_deconjugate() {
 fn test_conj() {
     init_logger();
     macro_rules! test_cases {
-        ($($root:literal $kind:ident: $($step:ident)* => $kana:literal)+) => {
+        ($($kind:ident: $($step:ident)* => $kana:literal)+) => {
             $(
-                assert_eq!(Root{text: $root.into(), kind: RootKind::$kind, steps: vec![$(Step::$step),*]}.conjugation_suffix(), $kana);
+                assert_eq!(Root{text: "".into(), kind: RootKind::$kind, steps: vec![$(Step::$step),*]}.conjugation_suffix(), $kana);
             )+
         };
     }
     test_cases! {
-        "い" GodanKu: Imperative => "け"
-        "い" Iku: Imperative => "け"
-        "き" GodanKu: Masu Ta => "きました"
-        "し" GodanNu: Invitational => "にましょう"
-        "いそ" GodanGu: Masen Ka => "ぎませんか"
-        "つか" GodanU: Ta => "った"
-        "つか" GodanU: Tari => "ったり"
-        "あそ" GodanBu: Nasai => "びなさい"
-        "たの" GodanMu: Nasai => "みなさい"
-        "し" GodanNu: Causative => "なせる"
-        "みつけ" Ichidan: Causative => "させる"
-        "かえ" GodanSu: Zu => "さず"
-        "かけめぐ" GodanRu: => "り"
-        "もや" GodanSu: => "し"
-        "かすか" NaAdjective: Na => "な"
-        "にぎやか" NaAdjective: Na => "な"
-        "し" GodanNu: Chau => "んじゃう"
-        "おち" Ichidan: Chau Ta => "ちゃった"
-        "し" GodanNu: Chau Ta => "んじゃった"
-        "とびこ" GodanMu: Naide => "まないで"
-        "つまらな" IAdjective: Katta => "かった"
-        "そうじ" Suru: Volitional => "しよう"
-        "そうじ" SpecialSuru: Volitional => "しよう"
-        "いいかげんに" Suru: Imperative => "しろ"
-        "いいかげんに" SpecialSuru: Imperative => "しろ"
+        GodanKu: Imperative => "け"
+        Iku: Imperative => "け"
+        GodanKu: Masu Ta => "きました"
+        GodanNu: Invitational => "にましょう"
+        GodanGu: Masen Ka => "ぎませんか"
+        GodanU: Ta => "った"
+        GodanU: Tari => "ったり"
+        GodanBu: Nasai => "びなさい"
+        GodanMu: Nasai => "みなさい"
+        GodanNu: Causative => "なせる"
+        Ichidan: Causative => "させる"
+        GodanSu: Zu => "さず"
+        GodanRu: => "り"
+        GodanSu: => "し"
+        NaAdjective: Na => "な"
+        NaAdjective: Na => "な"
+        GodanNu: Chau => "んじゃう"
+        Ichidan: Chau Ta => "ちゃった"
+        GodanNu: Chau Ta => "んじゃった"
+        GodanMu: Naide => "まないで"
+        IAdjective: Katta => "かった"
+        Suru: Volitional => "しよう"
+        SpecialSuru: Volitional => "しよう"
+        Suru: Imperative => "しろ"
+        SpecialSuru: Imperative => "しろ"
     }
 }
 
