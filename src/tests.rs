@@ -131,6 +131,7 @@ fn test_deconjugate() {
         "かけめぐり" => "かけめぐ" GodanRu:
         "もやし" => "もや" GodanSu:
         "ふりむき" => "ふりむ" GodanKu:
+        "しずみ" => "しず" GodanMu:
         // い Adjectives
         "はやく" => "はや" IAdjective: AdverbialKu
         // い past
