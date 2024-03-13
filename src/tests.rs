@@ -129,10 +129,11 @@ fn test_deconjugate() {
         "かっちゃった" => "か" GodanU: Chau Ta
         "まちがっちゃった" => "まちが" GodanU: Chau Ta
         // Verb stems
-        "かけめぐり" => "かけめぐ" GodanRu:
-        "もやし" => "もや" GodanSu:
-        "ふりむき" => "ふりむ" GodanKu:
-        "しずみ" => "しず" GodanMu:
+        "かけめぐり" => "かけめぐ" GodanRu: Stem
+        "もやし" => "もや" GodanSu: Stem
+        "ふりむき" => "ふりむ" GodanKu: Stem
+        "しずみ" => "しず" GodanMu: Stem
+        "ひろげ" => "ひろげ" Ichidan: Stem
         // い Adjectives
         "はやく" => "はや" IAdjective: AdverbialKu
         // い past

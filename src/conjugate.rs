@@ -155,6 +155,9 @@ impl Root {
                 Step::Katta => {
                     text.push_str("かった");
                 }
+                // Might or might not need special handling by API consumer
+                //to remove extra part
+                Step::Stem => {}
             }
         }
         text

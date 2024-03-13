@@ -21,6 +21,12 @@ fn deconj_expr(mut chars: Vec<char>, roots: &mut Vec<Root>, steps: Vec<Step>) {
         kind: RootKind::IAdjective,
         steps: steps.clone(),
     });
+    // Also anything can be an ichidan verb stem... I guess?
+    roots.push(Root {
+        text: chars.to_string(),
+        kind: RootKind::Ichidan,
+        steps: steps.clone().with(Step::Stem),
+    });
     let Some(last_ch) = chars.pop() else {
         return;
     };
@@ -60,7 +66,7 @@ fn deconj_mi(roots: &mut Vec<Root>, chars: Vec<char>, steps: Vec<Step>) {
     roots.push(Root {
         text: chars.to_string(),
         kind: RootKind::GodanMu,
-        steps,
+        steps: steps.with(Step::Stem),
     });
 }
 
@@ -70,7 +76,7 @@ fn deconj_ki(roots: &mut Vec<Root>, chars: Vec<char>, steps: Vec<Step>) {
     roots.push(Root {
         text: chars.to_string(),
         kind: RootKind::GodanKu,
-        steps,
+        steps: steps.with(Step::Stem),
     });
 }
 
@@ -91,7 +97,7 @@ fn deconj_shi(roots: &mut Vec<Root>, chars: Vec<char>, steps: Vec<Step>) {
     roots.push(Root {
         text: chars.to_string(),
         kind: RootKind::GodanSu,
-        steps,
+        steps: steps.with(Step::Stem),
     });
 }
 
@@ -198,7 +204,7 @@ fn deconj_ri(roots: &mut Vec<Root>, mut chars: Vec<char>, mut steps: Vec<Step>) 
     roots.push(Root {
         text: chars.to_string(),
         kind: RootKind::GodanRu,
-        steps: steps.clone(),
+        steps: steps.clone().with(Step::Stem),
     });
     match chars.pop() {
         Some('た') => {

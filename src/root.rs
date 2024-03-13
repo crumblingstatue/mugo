@@ -83,6 +83,8 @@ pub enum Step {
     Na,
     /// I adjective past
     Katta,
+    /// Take the stem of a verb
+    Stem,
 }
 
 impl Root {
