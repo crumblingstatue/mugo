@@ -77,6 +77,7 @@ fn test_deconjugate() {
         "のみます" => "の" GodanMu: Masu
         "ききます" => "き" GodanKu: Masu
         "ききました" => "き" GodanKu: Masu Ta
+        "いきます" => "い" Iku: Masu
         // たい
         "つらぬきたい" => "つらぬ" GodanKu: Tai
         // Masen

@@ -860,8 +860,13 @@ fn push_masu_root(chars: Vec<char>, roots: &mut Vec<Root>, steps: Vec<Step>) {
             roots.push(Root {
                 text: chars.to_string(),
                 kind: RootKind::Kuru,
-                steps,
+                steps: steps.clone(),
             });
+            roots.push(Root {
+                text: chars.init().to_string(),
+                kind: RootKind::Iku,
+                steps,
+            })
         }
         Some('ぎ') => {
             roots.push(Root {
