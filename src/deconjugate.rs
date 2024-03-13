@@ -399,10 +399,14 @@ fn push_godan_negative_root(chars: Vec<char>, roots: &mut Vec<Root>, steps: Vec<
     true
 }
 
-fn deconj_te(roots: &mut Vec<Root>, chars: Vec<char>, mut steps: Vec<Step>) {
+fn deconj_te(roots: &mut Vec<Root>, chars: Vec<char>, steps: Vec<Step>) {
     debug!("deconj_te");
-    steps.insert(0, Step::Te);
-    push_te_root(roots, chars, steps);
+    roots.push(Root {
+        text: chars.to_string(),
+        kind: RootKind::GodanTsu,
+        steps: steps.clone().with(Step::Imperative),
+    });
+    push_te_root(roots, chars, steps.with(Step::Te));
 }
 
 fn push_te_root(roots: &mut Vec<Root>, chars: Vec<char>, steps: Vec<Step>) {
@@ -920,7 +924,7 @@ trait StepVecExt {
 
 impl StepVecExt for Vec<Step> {
     fn with(mut self, step: Step) -> Self {
-        self.push(step);
+        self.insert(0, step);
         self
     }
 }

@@ -71,6 +71,7 @@ fn test_deconjugate() {
         "とまれ" => "とま" GodanRu: Imperative
         "とめろ" => "とめ" Ichidan: Imperative
         "つくせ" => "つく" GodanSu: Imperative
+        "うて" => "う" GodanTsu: Imperative
         // ます
         "たべます" => "たべ" Ichidan: Masu
         "のみます" => "の" GodanMu: Masu
