@@ -80,15 +80,16 @@ fn deconj_ki(roots: &mut Vec<Root>, chars: Vec<char>, steps: Vec<Step>) {
     });
 }
 
-fn deconj_se(roots: &mut Vec<Root>, chars: Vec<char>, mut steps: Vec<Step>) {
+fn deconj_se(roots: &mut Vec<Root>, chars: Vec<char>, steps: Vec<Step>) {
     debug!("deconj_se");
-    steps.push(Step::Imperative);
     // Godan su imperative
     roots.push(Root {
         text: chars.to_string(),
         kind: RootKind::GodanSu,
-        steps,
+        steps: steps.clone().with(Step::Imperative),
     });
+    // Causative stem
+    push_causative(steps.with(Step::Stem), chars, roots);
 }
 
 fn deconj_shi(roots: &mut Vec<Root>, chars: Vec<char>, steps: Vec<Step>) {
@@ -259,14 +260,18 @@ fn deconj_ru(roots: &mut Vec<Root>, mut chars: Vec<char>, mut steps: Vec<Step>) 
         },
         Some('せ') => {
             debug!("seru");
-            steps.push(Step::Causative);
-            if let Some('さ') = ldbg!(log::Level::Debug, chars.last()) {
-                roots.ichidan(chars.init().to_string(), steps.clone())
-            }
-            push_godan_negative_root(chars, roots, steps);
+            push_causative(steps, chars, roots);
         }
         _ => {}
     }
+}
+
+fn push_causative(mut steps: Vec<Step>, chars: Vec<char>, roots: &mut Vec<Root>) {
+    steps.insert(0, Step::Causative);
+    if let Some('さ') = ldbg!(log::Level::Debug, chars.last()) {
+        roots.ichidan(chars.init().to_string(), steps.clone())
+    }
+    push_godan_negative_root(chars, roots, steps);
 }
 
 fn deconj_n(roots: &mut Vec<Root>, mut chars: Vec<char>, mut steps: Vec<Step>) {

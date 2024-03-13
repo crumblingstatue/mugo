@@ -121,9 +121,12 @@ impl Root {
                 Step::Causative => {
                     push_neg_root(kind, &mut text);
                     match kind {
-                        RootKind::Ichidan => text.push_str("させる"),
+                        RootKind::Ichidan => text.push_str("させ"),
                         RootKind::IAdjective => todo!(),
-                        _ => text.push_str("せる"),
+                        _ => text.push('せ'),
+                    }
+                    if next_step_disjoint {
+                        text.push('る');
                     }
                 }
                 Step::Tai => {

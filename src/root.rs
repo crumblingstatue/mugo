@@ -126,6 +126,7 @@ impl Step {
             Step::ContRuAbbrev => RootKind::Ichidan,
             Step::Potential => RootKind::Ichidan,
             Step::Chau => RootKind::GodanU,
+            Step::Causative => RootKind::Ichidan,
             _ => return None,
         })
     }

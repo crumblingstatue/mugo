@@ -115,6 +115,8 @@ fn test_deconjugate() {
         "しなせる" => "し" GodanNu: Causative
         "みつけさせる" => "みつけ" Ichidan: Causative
         "ださせる" => "だ" GodanSu: Causative
+        // Causative stem
+        "さかせ" => "さ" GodanKu: Causative Stem
         // ば
         "さわげば" => "さわ" GodanGu: Ba
         "ふりだせば" => "ふりだ" GodanSu: Ba
@@ -188,6 +190,7 @@ fn test_conj() {
         SpecialSuru: Imperative => "しろ"
         SpecialSuru: Te ContRuAbbrev => "してる"
         GodanKu: Ka => "か"
+        GodanKu: Causative Stem => "かせ"
     }
 }
 
