@@ -91,6 +91,9 @@ fn test_deconjugate() {
         "あいしてる" => "あい" SpecialSuru: Te ContRuAbbrev
         "こいしてる" => "こい" Suru: Te ContRuAbbrev
         "こいしてる" => "こい" SpecialSuru: Te ContRuAbbrev
+        "とんでいる" => "と" GodanBu: Te Continuous
+        "はこんでる" => "はこ" GodanBu: Te ContRuAbbrev
+        "すんでいる" => "す" GodanMu: Te Continuous
         // くる (irregular)
         "きます" => "き" Kuru: Masu
         "きました" => "き" Kuru: Masu Ta

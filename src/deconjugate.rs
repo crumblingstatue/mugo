@@ -242,13 +242,21 @@ fn deconj_ru(roots: &mut Vec<Root>, mut chars: Vec<char>, mut steps: Vec<Step>) 
             steps.push(Step::ContRuAbbrev);
             deconj_te(roots, chars, steps);
         }
-        Some('い') => {
-            let Some('て') = chars.pop() else {
-                return;
-            };
-            steps.push(Step::Continuous);
-            deconj_te(roots, chars, steps);
+        Some('で') => {
+            steps.push(Step::ContRuAbbrev);
+            deconj_de(roots, chars, steps);
         }
+        Some('い') => match chars.pop() {
+            Some('て') => {
+                steps.push(Step::Continuous);
+                deconj_te(roots, chars, steps);
+            }
+            Some('で') => {
+                steps.push(Step::Continuous);
+                deconj_de(roots, chars, steps);
+            }
+            _ => {}
+        },
         Some('せ') => {
             debug!("seru");
             steps.push(Step::Causative);
