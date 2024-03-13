@@ -186,6 +186,7 @@ fn test_conj() {
         Suru: Imperative => "しろ"
         SpecialSuru: Imperative => "しろ"
         SpecialSuru: Te ContRuAbbrev => "してる"
+        GodanKu: Ka => "か"
     }
 }
 

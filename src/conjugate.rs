@@ -101,7 +101,7 @@ impl Root {
                     push_neg_root(kind, &mut text);
                     text.push('ず');
                 }
-                Step::Ka => unreachable!(),
+                Step::Ka => text.push('か'),
                 Step::Tari => {
                     push_ta(kind, &mut text);
                     text.push('り');
