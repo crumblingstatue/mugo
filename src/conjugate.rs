@@ -173,7 +173,7 @@ impl Root {
                 }
                 // Might or might not need special handling by API consumer
                 //to remove extra part
-                Step::Stem => {}
+                Step::Stem => push_masu_root_naked(kind, &mut text),
             }
         }
         text
