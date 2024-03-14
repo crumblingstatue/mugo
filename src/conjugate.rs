@@ -45,6 +45,10 @@ impl Root {
                     push_neg_root(kind, &mut text);
                     text.push_str("ない");
                 }
+                Step::Nu => {
+                    push_neg_root(kind, &mut text);
+                    text.push('ぬ');
+                }
                 Step::Naide => {
                     push_neg_root(kind, &mut text);
                     text.push_str("ないで");

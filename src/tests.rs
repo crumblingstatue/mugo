@@ -39,6 +39,8 @@ fn test_deconjugate() {
         "わたさないで" => "わた" GodanSu: Naide
         "しんぱいしないで" => "しんぱい" Suru: Naide
         "しんぱいしないで" => "しんぱい" SpecialSuru: Naide
+        // ぬ
+        "うしなわぬ" => "うしな" GodanU: Nu
         // なかった
         "ならわなかった" => "なら" GodanU: Nakatta
         "こまなかった" => "こ" GodanMu: Nakatta
@@ -196,6 +198,7 @@ fn test_conj() {
         GodanKu: Causative Stem => "かせ"
         GodanKu: Te Continuous Ta => "いていた"
         Ichidan: Te ContRuAbbrev Ta => "てた"
+        GodanU: Nu => "わぬ"
     }
 }
 

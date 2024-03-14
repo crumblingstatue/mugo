@@ -56,8 +56,14 @@ fn deconj_expr(mut chars: Vec<char>, roots: &mut Vec<Root>, steps: Vec<Step>) {
         'せ' => deconj_se(roots, chars, steps),
         'き' => deconj_ki(roots, chars, steps),
         'み' => deconj_mi(roots, chars, steps),
+        'ぬ' => deconj_nu(roots, chars, steps),
         _ => {}
     }
+}
+
+fn deconj_nu(roots: &mut Vec<Root>, chars: Vec<char>, steps: Vec<Step>) {
+    debug!("deconj_nu");
+    push_negative_root(chars, roots, steps.with(Step::Nu));
 }
 
 fn deconj_mi(roots: &mut Vec<Root>, chars: Vec<char>, steps: Vec<Step>) {

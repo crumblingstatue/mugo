@@ -40,6 +40,8 @@ pub enum Step {
     Te,
     /// Casual, present negative
     Nai,
+    /// Archaic form of nai
+    Nu,
     /// without doing... Kinda special, not really Nai + Te
     Naide,
     /// Casual, past negative
