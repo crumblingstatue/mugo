@@ -157,6 +157,9 @@ fn test_deconjugate() {
         // な Adjectives
         "かすかな" => "かすか" NaAdjective: Na
         "にぎやかな" => "にぎやか" NaAdjective: Na
+        // んだ
+        "だいすきなんだ" => "だいすき" NaAdjective: Na Nda
+        "はじめたんだ" => "はじめ" Ichidan: Ta Nda
     }
 }
 
@@ -203,6 +206,8 @@ fn test_conj() {
         Ichidan: Te ContRuAbbrev Ta => "てた"
         GodanU: Nu => "わぬ"
         IAdjective: Ki => "き"
+        NaAdjective: Na Nda => "なんだ"
+        Ichidan: Ta Nda => "たんだ"
     }
 }
 

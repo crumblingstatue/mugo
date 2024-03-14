@@ -89,6 +89,8 @@ pub enum Step {
     Stem,
     /// Arhaic い form
     Ki,
+    /// のだ abbreviation
+    Nda,
 }
 
 impl Root {

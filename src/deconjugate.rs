@@ -116,7 +116,7 @@ fn deconj_shi(roots: &mut Vec<Root>, chars: Vec<char>, steps: Vec<Step>) {
 
 fn deconj_na(roots: &mut Vec<Root>, chars: Vec<char>, mut steps: Vec<Step>) {
     debug!("deconj_na");
-    steps.push(Step::Na);
+    steps.insert(0, Step::Na);
     roots.push(Root {
         text: chars.to_string(),
         kind: RootKind::NaAdjective,
@@ -663,9 +663,11 @@ fn push_ta_root(chars: Vec<char>, roots: &mut Vec<Root>, steps: Vec<Step>) {
     }
 }
 
-fn deconj_da(roots: &mut Vec<Root>, chars: Vec<char>, mut steps: Vec<Step>) {
-    steps.insert(0, Step::Ta);
-    push_da_root(chars, roots, steps);
+fn deconj_da(roots: &mut Vec<Root>, mut chars: Vec<char>, steps: Vec<Step>) {
+    push_da_root(chars.clone(), roots, steps.clone().with(Step::Ta));
+    if let Some('ん') = chars.pop() {
+        deconj_expr(chars, roots, steps.with(Step::Nda));
+    }
 }
 
 fn push_da_root(chars: Vec<char>, roots: &mut Vec<Root>, steps: Vec<Step>) {

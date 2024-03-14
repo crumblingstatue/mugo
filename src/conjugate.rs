@@ -26,6 +26,7 @@ impl Root {
                 debug!("No root kind, special case spaghetti code:");
                 match step {
                     Step::Ka => text.push('か'),
+                    Step::Nda => text.push_str("んだ"),
                     _ => unreachable!(),
                 }
                 continue;
@@ -175,6 +176,7 @@ impl Root {
                 //to remove extra part
                 Step::Stem => push_masu_root_naked(kind, &mut text),
                 Step::Ki => text.push('き'),
+                Step::Nda => text.push_str("んだ"),
             }
         }
         text
