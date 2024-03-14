@@ -91,8 +91,17 @@ impl Root {
                         }
                     }
                 }
-                Step::Continuous => text.push_str("いる"),
-                Step::ContRuAbbrev => text.push('る'),
+                Step::Continuous => {
+                    text.push('い');
+                    if next_step_disjoint {
+                        text.push('る');
+                    }
+                }
+                Step::ContRuAbbrev => {
+                    if next_step_disjoint {
+                        text.push('る');
+                    }
+                }
                 Step::Invitational => {
                     push_masu_root(kind, &mut text);
                     text.push_str("しょう");

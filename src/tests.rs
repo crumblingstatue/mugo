@@ -95,6 +95,9 @@ fn test_deconjugate() {
         "とんでいる" => "と" GodanBu: Te Continuous
         "はこんでる" => "はこ" GodanBu: Te ContRuAbbrev
         "すんでいる" => "す" GodanMu: Te Continuous
+        // ていた/てた
+        "ゆらめいていた" => "ゆらめ" GodanKu: Te Continuous Ta
+        "あこがれてた" => "あこがれ" Ichidan: Te ContRuAbbrev Ta
         // くる (irregular)
         "きます" => "き" Kuru: Masu
         "きました" => "き" Kuru: Masu Ta
@@ -191,6 +194,8 @@ fn test_conj() {
         SpecialSuru: Te ContRuAbbrev => "してる"
         GodanKu: Ka => "か"
         GodanKu: Causative Stem => "かせ"
+        GodanKu: Te Continuous Ta => "いていた"
+        Ichidan: Te ContRuAbbrev Ta => "てた"
     }
 }
 

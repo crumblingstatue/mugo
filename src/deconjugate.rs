@@ -247,20 +247,24 @@ fn deconj_ru(roots: &mut Vec<Root>, mut chars: Vec<char>, mut steps: Vec<Step>) 
             steps.push(Step::ContRuAbbrev);
             deconj_de(roots, chars, steps);
         }
-        Some('い') => match chars.pop() {
-            Some('て') => {
-                steps.push(Step::Continuous);
-                deconj_te(roots, chars, steps);
-            }
-            Some('で') => {
-                steps.push(Step::Continuous);
-                deconj_de(roots, chars, steps);
-            }
-            _ => {}
-        },
+        Some('い') => push_i_cont_root(steps, chars, roots),
         Some('せ') => {
             debug!("seru");
             push_causative(steps, chars, roots);
+        }
+        _ => {}
+    }
+}
+
+fn push_i_cont_root(mut steps: Vec<Step>, mut chars: Vec<char>, roots: &mut Vec<Root>) {
+    match chars.pop() {
+        Some('て') => {
+            steps.insert(0, Step::Continuous);
+            deconj_te(roots, chars, steps);
+        }
+        Some('で') => {
+            steps.insert(0, Step::Continuous);
+            deconj_de(roots, chars, steps);
         }
         _ => {}
     }
@@ -551,25 +555,37 @@ fn deconj_ta(roots: &mut Vec<Root>, mut chars: Vec<char>, mut steps: Vec<Step>) 
     debug!("deconj_ta");
     steps.insert(0, Step::Ta);
     push_ta_root(chars.clone(), roots, steps.clone());
-    if let Some('っ') = chars.pop() {
-        if let Some('ゃ') = chars.last() {
-            let mut chars = chars.clone();
-            chars.pop();
-            deconj_small_ya(roots, chars, steps.clone());
-        }
-        if let Some('か') = chars.pop() {
-            debug!("かった... い adjective past");
-            steps.pop(); // It's not casual past た after all
-            roots.push(Root {
-                text: chars.to_string(),
-                kind: RootKind::IAdjective,
-                steps: steps.clone().with(Step::Katta),
-            });
-            if let Some('な') = chars.pop() {
-                steps.insert(0, Step::Nakatta);
-                push_negative_root(chars, roots, steps);
+    match chars.pop() {
+        Some('っ') => {
+            if let Some('ゃ') = chars.last() {
+                let mut chars = chars.clone();
+                chars.pop();
+                deconj_small_ya(roots, chars, steps.clone());
+            }
+            if let Some('か') = chars.pop() {
+                debug!("かった... い adjective past");
+                steps.pop(); // It's not casual past た after all
+                roots.push(Root {
+                    text: chars.to_string(),
+                    kind: RootKind::IAdjective,
+                    steps: steps.clone().with(Step::Katta),
+                });
+                if let Some('な') = chars.pop() {
+                    steps.insert(0, Step::Nakatta);
+                    push_negative_root(chars, roots, steps);
+                }
             }
         }
+        Some('い') => push_i_cont_root(steps, chars, roots),
+        Some('て') => {
+            steps.insert(0, Step::ContRuAbbrev);
+            deconj_te(roots, chars, steps);
+        }
+        Some('で') => {
+            steps.insert(0, Step::ContRuAbbrev);
+            deconj_de(roots, chars, steps);
+        }
+        _ => (),
     }
 }
 
