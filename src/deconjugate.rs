@@ -82,7 +82,13 @@ fn deconj_ki(roots: &mut Vec<Root>, chars: Vec<char>, steps: Vec<Step>) {
     roots.push(Root {
         text: chars.to_string(),
         kind: RootKind::GodanKu,
-        steps: steps.with(Step::Stem),
+        steps: steps.clone().with(Step::Stem),
+    });
+    // Archaic ki (i adjective)
+    roots.push(Root {
+        text: chars.to_string(),
+        kind: RootKind::IAdjective,
+        steps: steps.with(Step::Ki),
     });
 }
 

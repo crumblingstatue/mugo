@@ -151,6 +151,9 @@ fn test_deconjugate() {
         "つまらなかった" => "つまらな" IAdjective: Katta
         // い stem
         "おいし" => "おいし" IAdjective:
+        // い adjective archaic き
+        "ちゃいろき" => "ちゃいろ" IAdjective: Ki
+        "あつき" => "あつ" IAdjective: Ki
         // な Adjectives
         "かすかな" => "かすか" NaAdjective: Na
         "にぎやかな" => "にぎやか" NaAdjective: Na
@@ -199,6 +202,7 @@ fn test_conj() {
         GodanKu: Te Continuous Ta => "いていた"
         Ichidan: Te ContRuAbbrev Ta => "てた"
         GodanU: Nu => "わぬ"
+        IAdjective: Ki => "き"
     }
 }
 

@@ -87,6 +87,8 @@ pub enum Step {
     Katta,
     /// Take the stem of a verb
     Stem,
+    /// Arhaic い form
+    Ki,
 }
 
 impl Root {
