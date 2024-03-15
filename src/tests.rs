@@ -55,6 +55,8 @@ fn test_deconjugate() {
         "つかった" => "つか" GodanU: Ta
         "つらぬいた" => "つらぬ" GodanKu: Ta
         "さわいだ" => "さわ" GodanGu: Ta
+        // Potential た
+        "であえた" => "であ" GodanU: Potential Ta
         // たり
         "つかったり" => "つか" GodanU: Tari
         "あそんだり" => "あそ" GodanBu: Tari

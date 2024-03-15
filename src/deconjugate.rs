@@ -614,6 +614,7 @@ fn deconj_ta(roots: &mut Vec<Root>, mut chars: Vec<char>, mut steps: Vec<Step>) 
 
 fn push_ta_root(chars: Vec<char>, roots: &mut Vec<Root>, steps: Vec<Step>) {
     debug!("push_ta_root");
+    push_e_root(roots, chars.clone(), steps.clone().with(Step::Potential));
     match chars.last() {
         Some('っ') => {
             // Godan ru
