@@ -336,7 +336,7 @@ fn deconj_nai(roots: &mut Vec<Root>, chars: Vec<char>, mut steps: Vec<Step>) {
 /// Push both godan and ichidan negative roots
 fn push_negative_root(chars: Vec<char>, roots: &mut Vec<Root>, steps: Vec<Step>) {
     if !push_godan_negative_root(chars.clone(), roots, steps.clone()) {
-        roots.ichidan(chars.to_string(), steps)
+        roots.ichidan(chars.to_string(), steps);
     }
 }
 
@@ -436,6 +436,9 @@ fn push_godan_negative_root(chars: Vec<char>, roots: &mut Vec<Root>, steps: Vec<
                 kind: RootKind::Kuru,
                 steps: steps.clone(),
             });
+        }
+        Some('せ') => {
+            push_causative(steps, chars.init().to_owned(), roots);
         }
         _ => return false,
     }

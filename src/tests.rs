@@ -123,6 +123,8 @@ fn test_deconjugate() {
         "ださせる" => "だ" GodanSu: Causative
         // Causative stem
         "さかせ" => "さ" GodanKu: Causative Stem
+        // Causative nai
+        "いわせない" => "い" GodanU: Causative Nai
         // ば
         "さわげば" => "さわ" GodanGu: Ba
         "ふりだせば" => "ふりだ" GodanSu: Ba
