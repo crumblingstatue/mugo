@@ -74,6 +74,7 @@ pub enum Step {
     /// While/during
     Nagara,
     Causative,
+    Passive,
     /// Want to ...
     Tai,
     /// Conditional

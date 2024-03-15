@@ -127,6 +127,8 @@ fn test_deconjugate() {
         "さかせ" => "さ" GodanKu: Causative Stem
         // Causative nai
         "いわせない" => "い" GodanU: Causative Nai
+        // Passive
+        "うごかれる" => "うご" GodanKu: Passive
         // ば
         "さわげば" => "さわ" GodanGu: Ba
         "ふりだせば" => "ふりだ" GodanSu: Ba
@@ -190,6 +192,8 @@ fn test_conj() {
         GodanMu: Nasai => "みなさい"
         GodanNu: Causative => "なせる"
         Ichidan: Causative => "させる"
+        GodanKu: Passive => "かれる"
+        Ichidan: Passive => "られる"
         GodanSu: Zu => "さず"
         GodanRu: Stem => "り"
         GodanSu: Stem => "し"

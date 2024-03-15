@@ -143,6 +143,17 @@ impl Root {
                         text.push('る');
                     }
                 }
+                Step::Passive => {
+                    push_neg_root(kind, &mut text);
+                    match kind {
+                        RootKind::Ichidan => text.push_str("られ"),
+                        RootKind::IAdjective => todo!(),
+                        _ => text.push('れ'),
+                    }
+                    if next_step_disjoint {
+                        text.push('る');
+                    }
+                }
                 Step::Tai => {
                     push_masu_root_naked(kind, &mut text);
                     text.push_str("たい");

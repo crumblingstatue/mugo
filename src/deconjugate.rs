@@ -264,6 +264,10 @@ fn deconj_ru(roots: &mut Vec<Root>, mut chars: Vec<char>, mut steps: Vec<Step>) 
             debug!("seru");
             push_causative(steps, chars, roots);
         }
+        Some('れ') => {
+            debug!("reru");
+            push_passive(steps, chars, roots);
+        }
         _ => {}
     }
 }
@@ -285,6 +289,14 @@ fn push_i_cont_root(mut steps: Vec<Step>, mut chars: Vec<char>, roots: &mut Vec<
 fn push_causative(mut steps: Vec<Step>, chars: Vec<char>, roots: &mut Vec<Root>) {
     steps.insert(0, Step::Causative);
     if let Some('さ') = ldbg!(log::Level::Debug, chars.last()) {
+        roots.ichidan(chars.init().to_string(), steps.clone())
+    }
+    push_godan_negative_root(chars, roots, steps);
+}
+
+fn push_passive(mut steps: Vec<Step>, chars: Vec<char>, roots: &mut Vec<Root>) {
+    steps.insert(0, Step::Passive);
+    if let Some('ら') = ldbg!(log::Level::Debug, chars.last()) {
         roots.ichidan(chars.init().to_string(), steps.clone())
     }
     push_godan_negative_root(chars, roots, steps);
