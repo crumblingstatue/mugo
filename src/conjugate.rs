@@ -27,7 +27,7 @@ impl Root {
                 match step {
                     Step::Ka => text.push('か'),
                     Step::Nda => text.push_str("んだ"),
-                    _ => unreachable!(),
+                    _ => text.push_str("###BUG###"),
                 }
                 continue;
             };
