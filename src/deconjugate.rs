@@ -429,6 +429,14 @@ fn push_godan_negative_root(chars: Vec<char>, roots: &mut Vec<Root>, steps: Vec<
                 steps,
             });
         }
+        Some('こ') => {
+            // Kuru verb... Also not godan
+            roots.push(Root {
+                text: chars.init().to_string(),
+                kind: RootKind::Kuru,
+                steps: steps.clone(),
+            });
+        }
         _ => return false,
     }
     true

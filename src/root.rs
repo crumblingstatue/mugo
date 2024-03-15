@@ -110,10 +110,7 @@ impl Root {
             RootKind::GodanKu => txt.push('く'),
             RootKind::IAdjective => txt.push('い'),
             RootKind::Iku => txt.push('く'),
-            RootKind::Kuru => {
-                txt.pop();
-                txt.push_str("くる")
-            }
+            RootKind::Kuru => txt.push_str("くる"),
             RootKind::Suru | RootKind::SpecialSuru => txt.push_str("する"),
             RootKind::NaAdjective => {}
         };

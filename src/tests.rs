@@ -108,6 +108,7 @@ fn test_deconjugate() {
         "こい" => "" Kuru: Imperative
         "きて" => "" Kuru: Te
         "きた" => "" Kuru: Ta
+        "でてこない" => "でて" Kuru: Nai
         // ず
         "およがず" => "およ" GodanGu: Zu
         // なさい
@@ -208,6 +209,7 @@ fn test_conj() {
         IAdjective: Ki => "き"
         NaAdjective: Na Nda => "なんだ"
         Ichidan: Ta Nda => "たんだ"
+        Kuru: Nai => "ない" // Fine as long as it's 来る kanji... TODO: Find solution for kanjiless 出てこない
     }
 }
 
@@ -228,6 +230,8 @@ fn test_dict() {
         "かり" Ichidan => "かりる"
         "こい" Suru => "こいする"
         "あい" SpecialSuru => "あいする"
+        "" Kuru => "くる"
+        "でて" Kuru => "でてくる"
     }
 }
 
