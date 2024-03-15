@@ -250,7 +250,7 @@ fn push_chau_root(kind: RootKind, text: &mut String) {
 
 fn push_e_root(kind: RootKind, text: &mut String) {
     match kind {
-        RootKind::Ichidan => text.push('れ'),
+        RootKind::Ichidan => text.push_str("られ"),
         RootKind::GodanBu => text.push('べ'),
         RootKind::GodanMu => text.push('め'),
         RootKind::GodanNu => text.push('ね'),

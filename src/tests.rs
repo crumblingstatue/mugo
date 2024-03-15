@@ -129,6 +129,9 @@ fn test_deconjugate() {
         "いわせない" => "い" GodanU: Causative Nai
         // Passive
         "うごかれる" => "うご" GodanKu: Passive
+        "あけられる" => "あけ" Ichidan: Passive
+        // Yes, it's true, it's both passive AND potential. Same conjugation.
+        "あけられる" => "あけ" Ichidan: Potential
         // ば
         "さわげば" => "さわ" GodanGu: Ba
         "ふりだせば" => "ふりだ" GodanSu: Ba
@@ -218,6 +221,7 @@ fn test_conj() {
         NaAdjective: Na Nda => "なんだ"
         Ichidan: Ta Nda => "たんだ"
         Kuru: Nai => "ない" // Fine as long as it's 来る kanji... TODO: Find solution for kanjiless 出てこない
+        Ichidan: Potential => "られる"
     }
 }
 
