@@ -46,10 +46,44 @@ fn deconj_expr(chars: &[char], roots: &mut Vec<Root>, steps: Vec<Step>) {
         'い' => deconj_i(roots, chars, steps),
         'う' => deconj_u(roots, chars, steps),
         'く' => deconj_ku(roots, chars, steps),
-        'ろ' => deconj_ro(roots, chars, steps),
-        'れ' => deconj_re(roots, chars, steps),
-        'け' => deconj_ke(roots, chars, steps),
-        'ね' => deconj_ne(roots, chars, steps),
+        'ろ' => roots.push(Root {
+            text: chars.to_string(),
+            kind: RootKind::Ichidan,
+            steps: steps.with(Step::Imperative),
+        }),
+        'れ' => {
+            roots.push(Root {
+                text: chars.to_string(),
+                kind: RootKind::GodanRu,
+                steps: vec![Step::Imperative],
+            });
+        }
+        'け' => {
+            roots.push(Root {
+                text: chars.to_string(),
+                kind: RootKind::GodanKu,
+                steps: vec![Step::Imperative],
+            });
+            roots.push(Root {
+                text: chars.to_string(),
+                kind: RootKind::Iku,
+                steps: vec![Step::Imperative],
+            });
+        }
+        'げ' => {
+            roots.push(Root {
+                text: chars.to_string(),
+                kind: RootKind::GodanGu,
+                steps: steps.clone().with(Step::Imperative),
+            });
+        }
+        'ね' => {
+            roots.push(Root {
+                text: chars.to_string(),
+                kind: RootKind::GodanNu,
+                steps: vec![Step::Imperative],
+            });
+        }
         'す' => deconj_su(roots, chars, steps),
         'る' => push_ichidan_root(chars, roots, steps, false),
         'ず' => deconj_zu(roots, chars, steps),
@@ -63,7 +97,6 @@ fn deconj_expr(chars: &[char], roots: &mut Vec<Root>, steps: Vec<Step>) {
         'き' => deconj_ki(roots, chars, steps),
         'み' => deconj_mi(roots, chars, steps),
         'ぬ' => deconj_nu(roots, chars, steps),
-        'げ' => deconj_ge(roots, chars, steps),
         _ => {}
     }
 }
@@ -80,16 +113,6 @@ fn push_i_adjective_root(roots: &mut Vec<Root>, chars: &[char], steps: Vec<Step>
     if let Some('な') = chars.last() {
         push_negative_root(chars.init(), roots, steps.with(Step::Nai));
     }
-}
-
-fn deconj_ge(roots: &mut Vec<Root>, chars: &[char], steps: Vec<Step>) {
-    debug!("deconj_ge: {chars:?}, {steps:?}");
-    // Godan gu imperative
-    roots.push(Root {
-        text: chars.to_string(),
-        kind: RootKind::GodanGu,
-        steps: steps.clone().with(Step::Imperative),
-    });
 }
 
 fn deconj_nu(roots: &mut Vec<Root>, chars: &[char], steps: Vec<Step>) {
@@ -831,43 +854,6 @@ fn deconj_ku(roots: &mut Vec<Root>, chars: &[char], steps: Vec<Step>) {
         text: chars.to_string(),
         kind: RootKind::IAdjective,
         steps: steps.with(Step::AdverbialKu),
-    });
-}
-
-fn deconj_ro(roots: &mut Vec<Root>, chars: &[char], steps: Vec<Step>) {
-    roots.push(Root {
-        text: chars.to_string(),
-        kind: RootKind::Ichidan,
-        steps: steps.with(Step::Imperative),
-    });
-}
-
-fn deconj_ke(roots: &mut Vec<Root>, chars: &[char], _steps: Vec<Step>) {
-    roots.push(Root {
-        text: chars.to_string(),
-        kind: RootKind::GodanKu,
-        steps: vec![Step::Imperative],
-    });
-    roots.push(Root {
-        text: chars.to_string(),
-        kind: RootKind::Iku,
-        steps: vec![Step::Imperative],
-    });
-}
-
-fn deconj_ne(roots: &mut Vec<Root>, chars: &[char], _steps: Vec<Step>) {
-    roots.push(Root {
-        text: chars.to_string(),
-        kind: RootKind::GodanNu,
-        steps: vec![Step::Imperative],
-    });
-}
-
-fn deconj_re(roots: &mut Vec<Root>, chars: &[char], _steps: Vec<Step>) {
-    roots.push(Root {
-        text: chars.to_string(),
-        kind: RootKind::GodanRu,
-        steps: vec![Step::Imperative],
     });
 }
 
