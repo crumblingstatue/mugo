@@ -26,8 +26,16 @@ pub enum RootKind {
     /// Irregular 来る
     Kuru,
     /// Suru verb
+    ///
+    /// Note that these might require special handling if you're using a dictionary,
+    /// because some suru verbs are listed with the する suffix as dictionary form,
+    /// others are listed without. You need to handle both cases.
     Suru,
     /// Special suru verbs (they conjugate differently in some cases?)
+    ///
+    /// Note that these might require special handling if you're using a dictionary,
+    /// because some suru verbs are listed with the する suffix as dictionary form,
+    /// others are listed without. You need to handle both cases.
     SpecialSuru,
     IAdjective,
     NaAdjective,
