@@ -5,12 +5,12 @@ use {
 };
 
 pub fn deconjugate(word: &str) -> Vec<Root> {
-    debug!("deconjugate({word})");
     let mut roots = Vec::new();
     let chars: Vec<char> = word.chars().collect();
     let steps = vec![];
     deconj_expr(&chars, &mut roots, steps);
-    ldbg!(log::Level::Debug, roots)
+    debug!("deconjugate({word}) = {roots:#?}");
+    roots
 }
 
 fn deconj_expr(chars: &[char], roots: &mut Vec<Root>, steps: Vec<Step>) {

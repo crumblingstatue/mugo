@@ -10,13 +10,14 @@ pub struct Root {
 
 impl std::fmt::Debug for Root {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "「{}」（{:?}）", self.text, self.kind)?;
+        write!(f, "「{}」（{:?}）", self.dict_string(), self.kind)?;
         for (i, step) in self.steps.iter().enumerate() {
             write!(f, "{step:?}")?;
             if i != self.steps.len() - 1 {
                 write!(f, " ➡ ")?;
             }
         }
+        write!(f, " =「{}{}」", self.text, self.conjugation_suffix())?;
         Ok(())
     }
 }
