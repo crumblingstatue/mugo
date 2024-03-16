@@ -96,7 +96,7 @@ fn deconj_expr(chars: &[char], roots: &mut Vec<Root>, steps: Vec<Step>) {
         'せ' => deconj_se(roots, chars, steps),
         'き' => deconj_ki(roots, chars, steps),
         'み' => deconj_mi(roots, chars, steps),
-        'ぬ' => deconj_nu(roots, chars, steps),
+        'ぬ' => push_negative_root(chars, roots, steps.with(Step::Nu)),
         _ => {}
     }
 }
@@ -113,11 +113,6 @@ fn push_i_adjective_root(roots: &mut Vec<Root>, chars: &[char], steps: Vec<Step>
     if let Some('な') = chars.last() {
         push_negative_root(chars.init(), roots, steps.with(Step::Nai));
     }
-}
-
-fn deconj_nu(roots: &mut Vec<Root>, chars: &[char], steps: Vec<Step>) {
-    debug!("deconj_nu: {chars:?}, {steps:?}");
-    push_negative_root(chars, roots, steps.with(Step::Nu));
 }
 
 fn deconj_mi(roots: &mut Vec<Root>, chars: &[char], steps: Vec<Step>) {
