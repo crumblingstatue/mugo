@@ -560,12 +560,7 @@ fn push_te_root(roots: &mut Vec<Root>, chars: &[char], steps: Vec<Step>) {
         return;
     };
     let kinds = match last {
-        'っ' => &[
-            RootKind::GodanRu,
-            RootKind::GodanTsu,
-            RootKind::GodanU,
-            RootKind::Iku,
-        ][..],
+        'っ' => &[RootKind::GodanRu, RootKind::GodanTsu, RootKind::GodanU, RootKind::Iku][..],
         'い' => &[RootKind::GodanKu],
         'し' => &[RootKind::GodanSu, RootKind::Suru, RootKind::SpecialSuru],
         'き' if chars.is_empty() => &[RootKind::Kuru],
