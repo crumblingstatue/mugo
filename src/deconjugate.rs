@@ -27,15 +27,17 @@ fn deconj_expr(chars: &[char], roots: &mut Vec<Root>, steps: Vec<Step>) {
         kind: RootKind::Ichidan,
         steps: steps.clone().with(Step::Stem),
     });
-    if let Some(['け', 'れ', 'ば']) = chars.last_chunk() {
-        push_i_adjective_root(roots, &chars[..chars.len() - 3], steps.with(Step::Kereba));
+    if let Some((chars, ['け', 'れ', 'ば'])) = chars.split_last_chunk() {
+        push_i_adjective_root(roots, chars, steps.with(Step::Kereba));
         return;
     }
     if let Some((chars, ['ま', 'す'])) = chars.split_last_chunk() {
         push_masu_root(chars, roots, steps.clone().with(Step::Masu));
+        return;
     }
     if let Some((chars, ['ま', 'せ', 'ん'])) = chars.split_last_chunk() {
         push_masu_root(chars, roots, steps.clone().with(Step::Masen));
+        return;
     }
     let Some((last_ch, chars)) = chars.split_last() else {
         return;
