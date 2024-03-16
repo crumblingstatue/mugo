@@ -197,6 +197,10 @@ impl Root {
                 Step::Ki => text.push('き'),
                 Step::Nda => text.push_str("んだ"),
                 Step::Kereba => text.push_str("ければ"),
+                Step::Nakya => {
+                    push_neg_root(kind, &mut text);
+                    text.push_str("なきゃ");
+                }
             }
         }
         text

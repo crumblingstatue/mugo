@@ -116,6 +116,8 @@ pub enum Step {
     Nda,
     /// い adjective conditional
     Kereba,
+    /// Nakereba short form
+    Nakya,
 }
 
 impl Root {

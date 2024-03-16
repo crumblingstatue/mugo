@@ -186,6 +186,8 @@ fn test_deconjugate_positive() {
         // ければ
         "かわいければ" => "かわい" IAdjective: Kereba
         "にげださなければ" => "にげだ" GodanSu: Nai Kereba
+        // なきゃ
+        "たちあがらなきゃ" => "たちあが" GodanRu: Nakya
     }
 }
 
@@ -269,6 +271,7 @@ fn test_conj() {
         Kuru: Masen => "きません"
         Kuru: Masu Ta => "きました"
         Kuru: Volitional => "こよう"
+        GodanRu: Nakya => "らなきゃ"
     }
 }
 
