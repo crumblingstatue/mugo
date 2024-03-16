@@ -192,6 +192,7 @@ impl Root {
                 Step::Stem => push_masu_root_naked(kind, &mut text),
                 Step::Ki => text.push('き'),
                 Step::Nda => text.push_str("んだ"),
+                Step::Kereba => text.push_str("ければ"),
             }
         }
         text

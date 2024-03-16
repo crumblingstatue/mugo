@@ -27,6 +27,10 @@ fn deconj_expr(mut chars: Vec<char>, roots: &mut Vec<Root>, steps: Vec<Step>) {
         kind: RootKind::Ichidan,
         steps: steps.clone().with(Step::Stem),
     });
+    if let Some(['け', 'れ', 'ば']) = chars.last_chunk() {
+        push_i_adjective_root(roots, &chars[..chars.len() - 3], steps.with(Step::Kereba));
+        return;
+    }
     let Some(last_ch) = chars.pop() else {
         return;
     };
@@ -60,6 +64,15 @@ fn deconj_expr(mut chars: Vec<char>, roots: &mut Vec<Root>, steps: Vec<Step>) {
         'げ' => deconj_ge(roots, chars, steps),
         _ => {}
     }
+}
+
+fn push_i_adjective_root(roots: &mut Vec<Root>, chars: &[char], steps: Vec<Step>) {
+    // Anything can be an い adjective root (I guess)
+    roots.push(Root {
+        text: chars.to_string(),
+        kind: RootKind::IAdjective,
+        steps: steps.clone(),
+    });
 }
 
 fn deconj_ge(roots: &mut Vec<Root>, chars: Vec<char>, steps: Vec<Step>) {

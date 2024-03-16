@@ -100,6 +100,8 @@ pub enum Step {
     Ki,
     /// のだ abbreviation
     Nda,
+    /// い adjective conditional
+    Kereba,
 }
 
 impl Root {
