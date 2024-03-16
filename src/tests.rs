@@ -76,6 +76,7 @@ fn test_deconjugate() {
         "とめろ" => "とめ" Ichidan: Imperative
         "つくせ" => "つく" GodanSu: Imperative
         "うて" => "う" GodanTsu: Imperative
+        "いそげ" => "いそ" GodanGu: Imperative
         // ます
         "たべます" => "たべ" Ichidan: Masu
         "のみます" => "の" GodanMu: Masu
@@ -222,6 +223,7 @@ fn test_conj() {
         Ichidan: Ta Nda => "たんだ"
         Kuru: Nai => "ない" // Fine as long as it's 来る kanji... TODO: Find solution for kanjiless 出てこない
         Ichidan: Potential => "られる"
+        GodanGu: Imperative => "げ"
     }
 }
 

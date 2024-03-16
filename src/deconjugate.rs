@@ -57,8 +57,19 @@ fn deconj_expr(mut chars: Vec<char>, roots: &mut Vec<Root>, steps: Vec<Step>) {
         'き' => deconj_ki(roots, chars, steps),
         'み' => deconj_mi(roots, chars, steps),
         'ぬ' => deconj_nu(roots, chars, steps),
+        'げ' => deconj_ge(roots, chars, steps),
         _ => {}
     }
+}
+
+fn deconj_ge(roots: &mut Vec<Root>, chars: Vec<char>, steps: Vec<Step>) {
+    debug!("deconj_ge");
+    // Godan gu imperative
+    roots.push(Root {
+        text: chars.to_string(),
+        kind: RootKind::GodanGu,
+        steps: steps.clone().with(Step::Imperative),
+    });
 }
 
 fn deconj_nu(roots: &mut Vec<Root>, chars: Vec<char>, steps: Vec<Step>) {
