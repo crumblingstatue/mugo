@@ -243,11 +243,11 @@ fn deconj_ra(roots: &mut Vec<Root>, mut chars: Vec<char>, mut steps: Vec<Step>) 
         Some('が') => {
             let Some('な') = chars.pop() else { return };
             steps.push(Step::Nagara);
-            push_masu_root(chars, roots, steps);
+            push_masu_root(&chars, roots, steps);
         }
         Some('た') => {
             steps.push(Step::Tara);
-            push_ta_root(chars, roots, steps);
+            push_ta_root(&chars, roots, steps);
         }
         _ => {}
     }
@@ -264,11 +264,11 @@ fn deconj_ri(roots: &mut Vec<Root>, mut chars: Vec<char>, mut steps: Vec<Step>) 
     match chars.pop() {
         Some('た') => {
             steps.push(Step::Tari);
-            push_ta_root(chars, roots, steps);
+            push_ta_root(&chars, roots, steps);
         }
         Some('だ') => {
             steps.push(Step::Tari);
-            push_da_root(chars, roots, steps);
+            push_da_root(&chars, roots, steps);
         }
         _ => (),
     }
@@ -327,7 +327,7 @@ fn deconj_n(roots: &mut Vec<Root>, mut chars: Vec<char>, mut steps: Vec<Step>) {
         return;
     };
     steps.insert(0, Step::Masen);
-    push_masu_root(chars, roots, steps);
+    push_masu_root(&chars, roots, steps);
 }
 
 fn deconj_i(roots: &mut Vec<Root>, mut chars: Vec<char>, mut steps: Vec<Step>) {
@@ -343,7 +343,7 @@ fn deconj_i(roots: &mut Vec<Root>, mut chars: Vec<char>, mut steps: Vec<Step>) {
         Some('た') => {
             // Tai
             steps.push(Step::Tai);
-            push_masu_root(chars, roots, steps);
+            push_masu_root(&chars, roots, steps);
         }
         _ => {}
     }
@@ -352,7 +352,7 @@ fn deconj_i(roots: &mut Vec<Root>, mut chars: Vec<char>, mut steps: Vec<Step>) {
 fn deconj_sai(roots: &mut Vec<Root>, mut chars: Vec<char>, mut steps: Vec<Step>) {
     let Some('な') = chars.pop() else { return };
     steps.push(Step::Nasai);
-    push_masu_root(chars, roots, steps);
+    push_masu_root(&chars, roots, steps);
 }
 
 fn deconj_nai(roots: &mut Vec<Root>, chars: &[char], mut steps: Vec<Step>) {
@@ -669,7 +669,7 @@ fn push_de_root(roots: &mut Vec<Root>, chars: &[char], steps: Vec<Step>) {
 fn deconj_ta(roots: &mut Vec<Root>, mut chars: Vec<char>, mut steps: Vec<Step>) {
     debug!("deconj_ta: {chars:?}, {steps:?}");
     steps.insert(0, Step::Ta);
-    push_ta_root(chars.clone(), roots, steps.clone());
+    push_ta_root(&chars, roots, steps.clone());
     match chars.pop() {
         Some('っ') => {
             if let Some('ゃ') = chars.last() {
@@ -704,11 +704,11 @@ fn deconj_ta(roots: &mut Vec<Root>, mut chars: Vec<char>, mut steps: Vec<Step>) 
     }
 }
 
-fn push_ta_root(chars: Vec<char>, roots: &mut Vec<Root>, steps: Vec<Step>) {
+fn push_ta_root(chars: &[char], roots: &mut Vec<Root>, steps: Vec<Step>) {
     debug!("push_ta_root: {chars:?}, {steps:?}");
     push_e_root(
         roots,
-        chars.clone(),
+        chars.to_vec(),
         steps.clone().with(Step::Potential),
         false,
     );
@@ -773,13 +773,13 @@ fn push_ta_root(chars: Vec<char>, roots: &mut Vec<Root>, steps: Vec<Step>) {
 }
 
 fn deconj_da(roots: &mut Vec<Root>, chars: &[char], steps: Vec<Step>) {
-    push_da_root(chars.to_vec(), roots, steps.clone().with(Step::Ta));
+    push_da_root(chars, roots, steps.clone().with(Step::Ta));
     if let Some(('ん', init)) = chars.split_last() {
         deconj_expr(init, roots, steps.with(Step::Nda));
     }
 }
 
-fn push_da_root(chars: Vec<char>, roots: &mut Vec<Root>, steps: Vec<Step>) {
+fn push_da_root(chars: &[char], roots: &mut Vec<Root>, steps: Vec<Step>) {
     match chars.last() {
         Some('ん') => {
             // Godan bu
@@ -916,7 +916,7 @@ fn deconj_small_you(roots: &mut Vec<Root>, mut chars: Vec<char>, mut steps: Vec<
         debug!("しょう...");
         if let Some('ま') = chars.pop() {
             steps.insert(0, Step::Invitational);
-            push_masu_root(chars, roots, steps);
+            push_masu_root(&chars, roots, steps);
         }
     }
 }
@@ -978,10 +978,10 @@ fn deconj_su(roots: &mut Vec<Root>, chars: &[char], steps: Vec<Step>) {
 fn deconj_masu(roots: &mut Vec<Root>, chars: &[char], mut steps: Vec<Step>) {
     debug!("deconj_masu: {chars:?}, {steps:?}");
     steps.insert(0, Step::Masu);
-    push_masu_root(chars.to_vec(), roots, steps);
+    push_masu_root(chars, roots, steps);
 }
 
-fn push_masu_root(chars: Vec<char>, roots: &mut Vec<Root>, steps: Vec<Step>) {
+fn push_masu_root(chars: &[char], roots: &mut Vec<Root>, steps: Vec<Step>) {
     roots.push(Root {
         text: chars.to_string(),
         kind: RootKind::Ichidan,
