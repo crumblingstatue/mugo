@@ -8,7 +8,7 @@ use {
 };
 
 #[test]
-fn test_deconjugate() {
+fn test_deconjugate_positive() {
     init_logger();
     macro_rules! test_cases {
         ($($kana:literal => $root:literal $kind:ident: $($step:ident)*)+) => {
@@ -127,6 +127,7 @@ fn test_deconjugate() {
         "しなせる" => "し" GodanNu: Causative
         "みつけさせる" => "みつけ" Ichidan: Causative
         "ださせる" => "だ" GodanSu: Causative
+        "じゃまさせる" => "じゃま" Suru: Causative
         // Causative stem
         "さかせ" => "さ" GodanKu: Causative Stem
         // Causative nai
@@ -178,6 +179,21 @@ fn test_deconjugate() {
         // んだ
         "だいすきなんだ" => "だいすき" NaAdjective: Na Nda
         "はじめたんだ" => "はじめ" Ichidan: Ta Nda
+    }
+}
+
+#[test]
+fn test_deconjugate_negative() {
+    init_logger();
+    macro_rules! test_cases {
+        ($($kana:literal => $root:literal $kind:ident: $($step:ident)*)+) => {
+            $(
+                assert!(!deconjugate($kana).contains(&Root{text: $root.into(), kind: RootKind::$kind, steps: vec![$(Step::$step),*]}));
+            )+
+        };
+    }
+    test_cases! {
+        "いかない" => "いか" Suru: Nai
     }
 }
 
@@ -235,6 +251,7 @@ fn test_conj() {
         GodanKu: Potential => "ける"
         Iku: Potential => "ける"
         Suru: Te Potential Nai => "してられない"
+        Suru: Causative => "させる"
     }
 }
 

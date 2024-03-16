@@ -45,7 +45,7 @@ fn deconj_expr(mut chars: Vec<char>, roots: &mut Vec<Root>, steps: Vec<Step>) {
         'ね' => deconj_ne(roots, chars, steps),
         'す' => deconj_su(roots, chars, steps),
         'ん' => deconj_n(roots, chars, steps),
-        'る' => push_ichidan_root(chars, roots, steps),
+        'る' => push_ichidan_root(chars, roots, steps, false),
         'ず' => deconj_zu(roots, chars, steps),
         'か' => deconj_ka(roots, chars, steps),
         'り' => deconj_ri(roots, chars, steps),
@@ -202,10 +202,10 @@ fn push_e_root(roots: &mut Vec<Root>, mut chars: Vec<char>, steps: Vec<Step>, ba
                 steps: steps.clone(),
             });
             if ba {
-                push_ichidan_root(chars, roots, steps);
+                push_ichidan_root(chars, roots, steps, false);
             } else if let Some('ら') = chars.pop() {
                 debug!("ra!");
-                push_ichidan_root(chars.clone(), roots, steps.clone());
+                push_ichidan_root(chars.clone(), roots, steps.clone(), false);
                 if let Some('こ') = chars.last() {
                     roots.push(Root {
                         text: chars.to_string(),
@@ -283,9 +283,10 @@ fn push_i_cont_root(mut steps: Vec<Step>, mut chars: Vec<char>, roots: &mut Vec<
 }
 
 fn push_causative(mut steps: Vec<Step>, chars: Vec<char>, roots: &mut Vec<Root>) {
+    debug!("push_causative: {chars:?}, {steps:?}");
     steps.insert(0, Step::Causative);
     if let Some('さ') = ldbg!(log::Level::Debug, chars.last()) {
-        roots.ichidan(chars.init().to_string(), steps.clone())
+        push_ichidan_root(chars.init().to_owned(), roots, steps.clone(), true);
     }
     push_godan_negative_root(chars, roots, steps);
 }
@@ -294,7 +295,7 @@ fn push_passive(mut steps: Vec<Step>, chars: Vec<char>, roots: &mut Vec<Root>) {
     debug!("push_passive: {chars:?}, {steps:?}");
     steps.insert(0, Step::Passive);
     if let Some('ら') = ldbg!(log::Level::Debug, chars.last()) {
-        push_ichidan_root(chars.init().to_owned(), roots, steps.clone());
+        push_ichidan_root(chars.init().to_owned(), roots, steps.clone(), false);
     }
     push_godan_negative_root(chars, roots, steps);
 }
@@ -346,13 +347,31 @@ fn deconj_nai(roots: &mut Vec<Root>, chars: Vec<char>, mut steps: Vec<Step>) {
 fn push_negative_root(chars: Vec<char>, roots: &mut Vec<Root>, steps: Vec<Step>) {
     debug!("push_negative_root: : {chars:?}, {steps:?}");
     push_godan_negative_root(chars.clone(), roots, steps.clone());
-    push_ichidan_root(chars, roots, steps);
+    push_ichidan_root(chars, roots, steps, false);
 }
 
-fn push_ichidan_root(mut chars: Vec<char>, roots: &mut Vec<Root>, mut steps: Vec<Step>) {
+fn push_ichidan_root(
+    mut chars: Vec<char>,
+    roots: &mut Vec<Root>,
+    mut steps: Vec<Step>,
+    suru_possible: bool,
+) {
     debug!("push_ichidan_root: {chars:?}, {steps:?}");
     // The whole expression itself can be ichidan
     roots.ichidan(chars.to_string(), steps.clone());
+    if suru_possible {
+        // It can also indeed be suru/special suru
+        roots.push(Root {
+            text: chars.to_string(),
+            kind: RootKind::Suru,
+            steps: steps.clone(),
+        });
+        roots.push(Root {
+            text: chars.to_string(),
+            kind: RootKind::SpecialSuru,
+            steps: steps.clone(),
+        });
+    }
     // Then we see what else it could be
     // Try for potential, but only if we're not already in a potential situation
     if steps.first() != Some(&Step::Potential) {

@@ -136,6 +136,10 @@ impl Root {
                     push_neg_root(kind, &mut text);
                     match kind {
                         RootKind::Ichidan => text.push_str("させ"),
+                        RootKind::Suru | RootKind::SpecialSuru => {
+                            text.pop();
+                            text.push_str("させ");
+                        }
                         RootKind::IAdjective => todo!(),
                         _ => text.push('せ'),
                     }
