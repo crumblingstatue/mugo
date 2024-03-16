@@ -58,7 +58,8 @@ impl Root {
                     text.push_str("ないで");
                 }
                 Step::Volitional => match kind {
-                    RootKind::Ichidan | RootKind::Kuru => text.push_str("よう"),
+                    RootKind::Ichidan => text.push_str("よう"),
+                    RootKind::Kuru => text.push_str("こよう"),
                     RootKind::GodanBu => text.push_str("ぼう"),
                     RootKind::GodanMu => text.push_str("もう"),
                     RootKind::GodanNu => text.push_str("のう"),
@@ -268,7 +269,7 @@ fn push_e_root(kind: RootKind, text: &mut String, ba: bool) {
         RootKind::GodanU => text.push('え'),
         RootKind::GodanGu => text.push('げ'),
         RootKind::GodanKu | RootKind::Iku => text.push('け'),
-        RootKind::Kuru => text.push_str("られ"),
+        RootKind::Kuru => text.push_str("こられ"),
         RootKind::IAdjective => todo!(),
         RootKind::NaAdjective => todo!(),
         RootKind::Suru | RootKind::SpecialSuru => todo!("できる special case needed(?)"),
@@ -288,7 +289,7 @@ fn push_neg_root(kind: RootKind, text: &mut String) {
         RootKind::GodanGu => text.push('が'),
         RootKind::GodanKu => text.push('か'),
         RootKind::Iku => text.push('か'),
-        RootKind::Kuru => {}
+        RootKind::Kuru => text.push('こ'),
         RootKind::IAdjective => todo!(),
         RootKind::NaAdjective => todo!(),
         RootKind::Suru | RootKind::SpecialSuru => text.push('し'),
@@ -316,7 +317,7 @@ fn push_masu_root(kind: RootKind, text: &mut String) {
 
 fn push_masu_root_naked(kind: RootKind, text: &mut String) {
     match kind {
-        RootKind::Ichidan | RootKind::Kuru => {}
+        RootKind::Ichidan => {}
         RootKind::GodanBu => text.push('び'),
         RootKind::GodanMu => text.push('み'),
         RootKind::GodanNu => text.push('に'),
@@ -327,6 +328,7 @@ fn push_masu_root_naked(kind: RootKind, text: &mut String) {
         RootKind::GodanGu => text.push('ぎ'),
         RootKind::GodanKu => text.push('き'),
         RootKind::Iku => text.push('き'),
+        RootKind::Kuru => text.push('き'),
         _ => {}
     }
 }

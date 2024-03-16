@@ -73,6 +73,7 @@ fn test_deconjugate_positive() {
         "おもおう" => "おも" GodanU: Volitional
         // Invitational
         "しにましょう" => "し" GodanNu: Invitational
+        "きましょう" => "" Kuru: Invitational
         // Imperative
         "いけ" => "い" Iku: Imperative
         "かがやけ" => "かがや" GodanKu: Imperative
@@ -109,9 +110,9 @@ fn test_deconjugate_positive() {
         "ゆらめいていた" => "ゆらめ" GodanKu: Te Continuous Ta
         "あこがれてた" => "あこがれ" Ichidan: Te ContRuAbbrev Ta
         // くる (irregular)
-        "きます" => "き" Kuru: Masu
-        "きました" => "き" Kuru: Masu Ta
-        "きません" => "き" Kuru: Masen
+        "きます" => "" Kuru: Masu
+        "きました" => "" Kuru: Masu Ta
+        "きません" => "" Kuru: Masen
         "こよう" => "こ" Kuru: Volitional
         "こい" => "" Kuru: Imperative
         "きて" => "" Kuru: Te
@@ -250,7 +251,7 @@ fn test_conj() {
         IAdjective: Ki => "き"
         NaAdjective: Na Nda => "なんだ"
         Ichidan: Ta Nda => "たんだ"
-        Kuru: Nai => "ない" // Fine as long as it's 来る kanji... TODO: Find solution for kanjiless 出てこない
+        Kuru: Nai => "こない" // Fine as long as it's 来る kanji... TODO: Find solution for kanjiless 出てこない
         Ichidan: Potential => "られる"
         GodanGu: Imperative => "げ"
         Ichidan: Ba => "れば"
@@ -263,6 +264,11 @@ fn test_conj() {
         GodanBu: Tara => "んだら"
         GodanMu: Tara => "んだら"
         GodanNu: Tara => "んだら"
+        Kuru: Invitational => "きましょう"
+        Kuru: Masu => "きます"
+        Kuru: Masen => "きません"
+        Kuru: Masu Ta => "きました"
+        Kuru: Volitional => "こよう"
     }
 }
 

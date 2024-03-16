@@ -984,7 +984,7 @@ fn push_masu_root(chars: &[char], roots: &mut Vec<Root>, steps: Vec<Step>) {
                 steps: steps.clone(),
             });
             roots.push(Root {
-                text: chars.to_string(),
+                text: chars.init().to_string(),
                 kind: RootKind::Kuru,
                 steps: steps.clone(),
             });
