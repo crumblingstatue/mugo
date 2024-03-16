@@ -284,36 +284,38 @@ fn deconj_zu(roots: &mut Vec<Root>, chars: &[char], steps: Vec<Step>) {
     push_negative_root(chars, roots, steps.with(Step::Zu));
 }
 
-fn push_i_cont_root(mut steps: Vec<Step>, chars: &[char], roots: &mut Vec<Root>) {
+fn push_i_cont_root(steps: Vec<Step>, chars: &[char], roots: &mut Vec<Root>) {
     match chars.last() {
-        Some('て') => {
-            steps.insert(0, Step::Continuous);
-            deconj_te(roots, chars.init(), steps);
-        }
-        Some('で') => {
-            steps.insert(0, Step::Continuous);
-            deconj_de(roots, chars.init(), steps);
-        }
+        Some('て') => deconj_te(roots, chars.init(), steps.with(Step::Continuous)),
+        Some('で') => deconj_de(roots, chars.init(), steps.with(Step::Continuous)),
         _ => {}
     }
 }
 
-fn push_causative(mut steps: Vec<Step>, chars: &[char], roots: &mut Vec<Root>) {
+fn push_causative(steps: Vec<Step>, chars: &[char], roots: &mut Vec<Root>) {
     debug!("push_causative: {chars:?}, {steps:?}");
-    steps.insert(0, Step::Causative);
     if let Some('さ') = ldbg!(log::Level::Debug, chars.last()) {
-        push_ichidan_root(chars.init(), roots, steps.clone(), true);
+        push_ichidan_root(
+            chars.init(),
+            roots,
+            steps.clone().with(Step::Causative),
+            true,
+        );
     }
-    push_godan_negative_root(chars, roots, steps);
+    push_godan_negative_root(chars, roots, steps.with(Step::Causative));
 }
 
-fn push_passive(mut steps: Vec<Step>, chars: &[char], roots: &mut Vec<Root>) {
+fn push_passive(steps: Vec<Step>, chars: &[char], roots: &mut Vec<Root>) {
     debug!("push_passive: {chars:?}, {steps:?}");
-    steps.insert(0, Step::Passive);
     if let Some('ら') = ldbg!(log::Level::Debug, chars.last()) {
-        push_ichidan_root(chars.init(), roots, steps.clone(), false);
+        push_ichidan_root(
+            chars.init(),
+            roots,
+            steps.clone().with(Step::Passive),
+            false,
+        );
     }
-    push_godan_negative_root(chars, roots, steps);
+    push_godan_negative_root(chars, roots, steps.with(Step::Passive));
 }
 
 fn deconj_i(roots: &mut Vec<Root>, chars: &[char], steps: Vec<Step>) {
@@ -341,10 +343,9 @@ fn deconj_sai(roots: &mut Vec<Root>, chars: &[char], steps: Vec<Step>) {
     push_masu_root(chars, roots, steps.with(Step::Nasai));
 }
 
-fn deconj_nai(roots: &mut Vec<Root>, chars: &[char], mut steps: Vec<Step>) {
+fn deconj_nai(roots: &mut Vec<Root>, chars: &[char], steps: Vec<Step>) {
     debug!("deconj_nai: {chars:?}, {steps:?}");
-    steps.insert(0, Step::Nai);
-    push_negative_root(chars, roots, steps);
+    push_negative_root(chars, roots, steps.with(Step::Nai));
 }
 
 /// Push both godan and ichidan negative roots
@@ -602,15 +603,13 @@ fn push_te_root(roots: &mut Vec<Root>, chars: &[char], steps: Vec<Step>) {
     }
 }
 
-fn deconj_de(roots: &mut Vec<Root>, chars: &[char], mut steps: Vec<Step>) {
+fn deconj_de(roots: &mut Vec<Root>, chars: &[char], steps: Vec<Step>) {
     debug!("deconj_de");
     if chars[chars.len().saturating_sub(2)..] == ['な', 'い'] {
-        steps.insert(0, Step::Naide);
-        push_negative_root(&chars[..chars.len() - 2], roots, steps);
+        push_negative_root(&chars[..chars.len() - 2], roots, steps.with(Step::Naide));
         return;
     }
-    steps.insert(0, Step::Te);
-    push_de_root(roots, chars, steps);
+    push_de_root(roots, chars, steps.with(Step::Te));
 }
 
 fn push_de_root(roots: &mut Vec<Root>, chars: &[char], steps: Vec<Step>) {
@@ -647,41 +646,32 @@ fn push_de_root(roots: &mut Vec<Root>, chars: &[char], steps: Vec<Step>) {
     }
 }
 
-fn deconj_ta(roots: &mut Vec<Root>, chars: &[char], mut steps: Vec<Step>) {
+fn deconj_ta(roots: &mut Vec<Root>, chars: &[char], steps: Vec<Step>) {
     debug!("deconj_ta: {chars:?}, {steps:?}");
-    steps.insert(0, Step::Ta);
-    push_ta_root(chars, roots, steps.clone());
+    push_ta_root(chars, roots, steps.clone().with(Step::Ta));
     let Some((last, chars)) = chars.split_last() else {
         return;
     };
     match last {
         'っ' => {
             if let Some('ゃ') = chars.last() {
-                deconj_small_ya(roots, chars.init(), steps.clone());
+                deconj_small_ya(roots, chars.init(), steps.clone().with(Step::Ta));
             }
             if let Some(('か', chars)) = chars.split_last() {
                 debug!("かった... い adjective past");
-                steps.pop(); // It's not casual past た after all
                 roots.push(Root {
                     text: chars.to_string(),
                     kind: RootKind::IAdjective,
                     steps: steps.clone().with(Step::Katta),
                 });
                 if let Some('な') = chars.last() {
-                    steps.insert(0, Step::Nakatta);
-                    push_negative_root(chars.init(), roots, steps);
+                    push_negative_root(chars.init(), roots, steps.with(Step::Nakatta));
                 }
             }
         }
-        'い' => push_i_cont_root(steps, chars, roots),
-        'て' => {
-            steps.insert(0, Step::ContRuAbbrev);
-            deconj_te(roots, chars, steps);
-        }
-        'で' => {
-            steps.insert(0, Step::ContRuAbbrev);
-            deconj_de(roots, chars, steps);
-        }
+        'い' => push_i_cont_root(steps.with(Step::Ta), chars, roots),
+        'て' => deconj_te(roots, chars, steps.with(Step::Ta).with(Step::ContRuAbbrev)),
+        'で' => deconj_de(roots, chars, steps.with(Step::Ta).with(Step::ContRuAbbrev)),
         _ => (),
     }
 }
@@ -827,36 +817,28 @@ fn deconj_u(roots: &mut Vec<Root>, chars: &[char], steps: Vec<Step>) {
     }
 }
 
-fn deconj_small_ya(roots: &mut Vec<Root>, chars: &[char], mut steps: Vec<Step>) {
+fn deconj_small_ya(roots: &mut Vec<Root>, chars: &[char], steps: Vec<Step>) {
     debug!("deconj_small_yau: {chars:?}, {steps:?}");
     match chars.last() {
-        Some('ち') => {
-            steps.insert(0, Step::Chau);
-            push_te_root(roots, chars.init(), steps);
-        }
-        Some('じ') => {
-            steps.insert(0, Step::Chau);
-            push_de_root(roots, chars.init(), steps);
-        }
+        Some('ち') => push_te_root(roots, chars.init(), steps.with(Step::Chau)),
+        Some('じ') => push_de_root(roots, chars.init(), steps.with(Step::Chau)),
         _ => {}
     }
 }
 
-fn deconj_ku(roots: &mut Vec<Root>, chars: &[char], mut steps: Vec<Step>) {
-    steps.insert(0, Step::AdverbialKu);
+fn deconj_ku(roots: &mut Vec<Root>, chars: &[char], steps: Vec<Step>) {
     roots.push(Root {
         text: chars.to_string(),
         kind: RootKind::IAdjective,
-        steps,
+        steps: steps.with(Step::AdverbialKu),
     });
 }
 
-fn deconj_ro(roots: &mut Vec<Root>, chars: &[char], mut steps: Vec<Step>) {
-    steps.insert(0, Step::Imperative);
+fn deconj_ro(roots: &mut Vec<Root>, chars: &[char], steps: Vec<Step>) {
     roots.push(Root {
         text: chars.to_string(),
         kind: RootKind::Ichidan,
-        steps,
+        steps: steps.with(Step::Imperative),
     });
 }
 
@@ -896,10 +878,8 @@ fn deconj_su(roots: &mut Vec<Root>, chars: &[char], steps: Vec<Step>) {
     }
 }
 
-fn deconj_masu(roots: &mut Vec<Root>, chars: &[char], mut steps: Vec<Step>) {
-    debug!("deconj_masu: {chars:?}, {steps:?}");
-    steps.insert(0, Step::Masu);
-    push_masu_root(chars, roots, steps);
+fn deconj_masu(roots: &mut Vec<Root>, chars: &[char], steps: Vec<Step>) {
+    push_masu_root(chars, roots, steps.with(Step::Masu));
 }
 
 fn push_masu_root(chars: &[char], roots: &mut Vec<Root>, steps: Vec<Step>) {
