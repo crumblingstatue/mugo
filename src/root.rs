@@ -1,11 +1,24 @@
 /// A possible root word.
 ///
 /// You must use a dictionary to look up whether this is an actual word or not
-#[derive(Debug, PartialEq, Clone)]
+#[derive(PartialEq, Clone)]
 pub struct Root {
     pub text: String,
     pub kind: RootKind,
     pub steps: Vec<Step>,
+}
+
+impl std::fmt::Debug for Root {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "「{}」（{:?}）", self.text, self.kind)?;
+        for (i, step) in self.steps.iter().enumerate() {
+            write!(f, "{step:?}")?;
+            if i != self.steps.len() - 1 {
+                write!(f, " ➡ ")?;
+            }
+        }
+        Ok(())
+    }
 }
 
 /// What kind of root word is this?
