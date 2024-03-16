@@ -5,7 +5,7 @@ use {
 };
 
 pub fn deconjugate(word: &str) -> Vec<Root> {
-    log::debug!("deconjugate({word})");
+    debug!("deconjugate({word})");
     let mut roots = Vec::new();
     let chars: Vec<char> = word.chars().collect();
     let steps = vec![];
@@ -14,7 +14,7 @@ pub fn deconjugate(word: &str) -> Vec<Root> {
 }
 
 fn deconj_expr(mut chars: Vec<char>, roots: &mut Vec<Root>, steps: Vec<Step>) {
-    log::debug!("deconj_expr");
+    debug!("deconj_expr: {chars:?}, {steps:?}");
     // Anything can be an い adjective root (I guess)
     roots.push(Root {
         text: chars.to_string(),
@@ -63,7 +63,7 @@ fn deconj_expr(mut chars: Vec<char>, roots: &mut Vec<Root>, steps: Vec<Step>) {
 }
 
 fn deconj_ge(roots: &mut Vec<Root>, chars: Vec<char>, steps: Vec<Step>) {
-    debug!("deconj_ge");
+    debug!("deconj_ge: {chars:?}, {steps:?}");
     // Godan gu imperative
     roots.push(Root {
         text: chars.to_string(),
@@ -73,12 +73,12 @@ fn deconj_ge(roots: &mut Vec<Root>, chars: Vec<char>, steps: Vec<Step>) {
 }
 
 fn deconj_nu(roots: &mut Vec<Root>, chars: Vec<char>, steps: Vec<Step>) {
-    debug!("deconj_nu");
+    debug!("deconj_nu: {chars:?}, {steps:?}");
     push_negative_root(chars, roots, steps.with(Step::Nu));
 }
 
 fn deconj_mi(roots: &mut Vec<Root>, chars: Vec<char>, steps: Vec<Step>) {
-    debug!("deconj_mi");
+    debug!("deconj_mi: {chars:?}, {steps:?}");
     // Godan mu verb stem
     roots.push(Root {
         text: chars.to_string(),
@@ -88,7 +88,7 @@ fn deconj_mi(roots: &mut Vec<Root>, chars: Vec<char>, steps: Vec<Step>) {
 }
 
 fn deconj_ki(roots: &mut Vec<Root>, chars: Vec<char>, steps: Vec<Step>) {
-    debug!("deconj_ki");
+    debug!("deconj_ki: {chars:?}, {steps:?}");
     // Godan ku verb stem
     roots.push(Root {
         text: chars.to_string(),
@@ -104,7 +104,7 @@ fn deconj_ki(roots: &mut Vec<Root>, chars: Vec<char>, steps: Vec<Step>) {
 }
 
 fn deconj_se(roots: &mut Vec<Root>, chars: Vec<char>, steps: Vec<Step>) {
-    debug!("deconj_se");
+    debug!("deconj_se: {chars:?}, {steps:?}");
     // Godan su imperative
     roots.push(Root {
         text: chars.to_string(),
@@ -116,7 +116,7 @@ fn deconj_se(roots: &mut Vec<Root>, chars: Vec<char>, steps: Vec<Step>) {
 }
 
 fn deconj_shi(roots: &mut Vec<Root>, chars: Vec<char>, steps: Vec<Step>) {
-    debug!("deconj_shi");
+    debug!("deconj_shi: {chars:?}, {steps:?}");
     // Godan su verb stem
     roots.push(Root {
         text: chars.to_string(),
@@ -126,7 +126,7 @@ fn deconj_shi(roots: &mut Vec<Root>, chars: Vec<char>, steps: Vec<Step>) {
 }
 
 fn deconj_na(roots: &mut Vec<Root>, chars: Vec<char>, mut steps: Vec<Step>) {
-    debug!("deconj_na");
+    debug!("deconj_na: {chars:?}, {steps:?}");
     steps.insert(0, Step::Na);
     roots.push(Root {
         text: chars.to_string(),
@@ -136,14 +136,14 @@ fn deconj_na(roots: &mut Vec<Root>, chars: Vec<char>, mut steps: Vec<Step>) {
 }
 
 fn deconj_ba(roots: &mut Vec<Root>, chars: Vec<char>, mut steps: Vec<Step>) {
-    debug!("deconj_ba");
+    debug!("deconj_ba: {chars:?}, {steps:?}");
     steps.push(Step::Ba);
     push_e_root(roots, chars, steps, true);
 }
 
 // Potential and ba roots are different for ichidan. Shocking, I know.
 fn push_e_root(roots: &mut Vec<Root>, mut chars: Vec<char>, steps: Vec<Step>, ba: bool) {
-    debug!("push_e_root: {chars:?}");
+    debug!("push_e_root: {chars:?}, {steps:?}");
     match chars.pop() {
         Some('え') => roots.push(Root {
             text: chars.to_string(),
@@ -202,10 +202,10 @@ fn push_e_root(roots: &mut Vec<Root>, mut chars: Vec<char>, steps: Vec<Step>, ba
                 steps: steps.clone(),
             });
             if ba {
-                roots.ichidan(chars.to_string(), steps);
+                push_ichidan_root(chars, roots, steps);
             } else if let Some('ら') = chars.pop() {
                 debug!("ra!");
-                roots.ichidan(chars.to_string(), steps.clone());
+                push_ichidan_root(chars.clone(), roots, steps.clone());
                 if let Some('こ') = chars.last() {
                     roots.push(Root {
                         text: chars.to_string(),
@@ -220,7 +220,7 @@ fn push_e_root(roots: &mut Vec<Root>, mut chars: Vec<char>, steps: Vec<Step>, ba
 }
 
 fn deconj_ra(roots: &mut Vec<Root>, mut chars: Vec<char>, mut steps: Vec<Step>) {
-    debug!("deconj_ra");
+    debug!("deconj_ra: {chars:?}, {steps:?}");
     match chars.pop() {
         Some('が') => {
             let Some('な') = chars.pop() else { return };
@@ -236,7 +236,7 @@ fn deconj_ra(roots: &mut Vec<Root>, mut chars: Vec<char>, mut steps: Vec<Step>) 
 }
 
 fn deconj_ri(roots: &mut Vec<Root>, mut chars: Vec<char>, mut steps: Vec<Step>) {
-    debug!("deconj_ri");
+    debug!("deconj_ri: {chars:?}, {steps:?}");
     // Godan ru verb stem
     roots.push(Root {
         text: chars.to_string(),
@@ -257,13 +257,13 @@ fn deconj_ri(roots: &mut Vec<Root>, mut chars: Vec<char>, mut steps: Vec<Step>) 
 }
 
 fn deconj_ka(roots: &mut Vec<Root>, chars: Vec<char>, mut steps: Vec<Step>) {
-    debug!("deconj_ka");
+    debug!("deconj_ka: {chars:?}, {steps:?}");
     steps.push(Step::Ka);
     deconj_expr(chars, roots, steps);
 }
 
 fn deconj_zu(roots: &mut Vec<Root>, chars: Vec<char>, mut steps: Vec<Step>) {
-    debug!("deconj_zu");
+    debug!("deconj_zu: {chars:?}, {steps:?}");
     steps.push(Step::Zu);
     push_negative_root(chars, roots, steps);
 }
@@ -291,15 +291,16 @@ fn push_causative(mut steps: Vec<Step>, chars: Vec<char>, roots: &mut Vec<Root>)
 }
 
 fn push_passive(mut steps: Vec<Step>, chars: Vec<char>, roots: &mut Vec<Root>) {
+    debug!("push_passive: {chars:?}, {steps:?}");
     steps.insert(0, Step::Passive);
     if let Some('ら') = ldbg!(log::Level::Debug, chars.last()) {
-        roots.ichidan(chars.init().to_string(), steps.clone())
+        push_ichidan_root(chars.init().to_owned(), roots, steps.clone());
     }
     push_godan_negative_root(chars, roots, steps);
 }
 
 fn deconj_n(roots: &mut Vec<Root>, mut chars: Vec<char>, mut steps: Vec<Step>) {
-    debug!("deconj_n");
+    debug!("deconj_n: {chars:?}, {steps:?}");
     let Some('せ') = chars.pop() else {
         return;
     };
@@ -311,7 +312,7 @@ fn deconj_n(roots: &mut Vec<Root>, mut chars: Vec<char>, mut steps: Vec<Step>) {
 }
 
 fn deconj_i(roots: &mut Vec<Root>, mut chars: Vec<char>, mut steps: Vec<Step>) {
-    debug!("deconj_i");
+    debug!("deconj_i: {chars:?}, {steps:?}");
     match chars.pop() {
         Some('な') => deconj_nai(roots, chars, steps),
         Some('さ') => deconj_sai(roots, chars, steps),
@@ -336,36 +337,49 @@ fn deconj_sai(roots: &mut Vec<Root>, mut chars: Vec<char>, mut steps: Vec<Step>)
 }
 
 fn deconj_nai(roots: &mut Vec<Root>, chars: Vec<char>, mut steps: Vec<Step>) {
-    debug!("deconj_nai");
+    debug!("deconj_nai: {chars:?}, {steps:?}");
     steps.insert(0, Step::Nai);
     push_negative_root(chars, roots, steps);
 }
 
 /// Push both godan and ichidan negative roots
 fn push_negative_root(chars: Vec<char>, roots: &mut Vec<Root>, steps: Vec<Step>) {
-    if !push_godan_negative_root(chars.clone(), roots, steps.clone()) {
-        push_ichidan_root(chars, roots, steps);
-    }
+    debug!("push_negative_root: : {chars:?}, {steps:?}");
+    push_godan_negative_root(chars.clone(), roots, steps.clone());
+    push_ichidan_root(chars, roots, steps);
 }
 
 fn push_ichidan_root(mut chars: Vec<char>, roots: &mut Vec<Root>, mut steps: Vec<Step>) {
+    debug!("push_ichidan_root: {chars:?}, {steps:?}");
     // The whole expression itself can be ichidan
     roots.ichidan(chars.to_string(), steps.clone());
     // Then we see what else it could be
-    // Try for potential
-    push_e_root(
-        roots,
-        chars.clone(),
-        steps.clone().with(Step::Potential),
-        false,
-    );
+    // Try for potential, but only if we're not already in a potential situation
+    if steps.first() != Some(&Step::Potential) {
+        push_e_root(
+            roots,
+            chars.clone(),
+            steps.clone().with(Step::Potential),
+            false,
+        );
+    }
+    debug!("push_ichidan_root (after e root push): {chars:?}, {steps:?}");
+    let terminal = steps.is_empty();
     match chars.pop() {
         Some('て') => {
-            steps.push(Step::ContRuAbbrev);
+            // Only add continuous ru handling if it's a terminal step...
+            // TODO: Figure out how to handle this mess better
+            if terminal {
+                steps.push(Step::ContRuAbbrev);
+            }
             deconj_te(roots, chars, steps);
         }
         Some('で') => {
-            steps.push(Step::ContRuAbbrev);
+            // Only add continuous ru handling if it's a terminal step...
+            // TODO: Figure out how to handle this mess better
+            if terminal {
+                steps.push(Step::ContRuAbbrev);
+            }
             deconj_de(roots, chars, steps);
         }
         Some('い') => push_i_cont_root(steps, chars, roots),
@@ -382,8 +396,8 @@ fn push_ichidan_root(mut chars: Vec<char>, roots: &mut Vec<Root>, mut steps: Vec
 }
 
 /// Push godan negative root, return false if there is no godan root match
-fn push_godan_negative_root(chars: Vec<char>, roots: &mut Vec<Root>, steps: Vec<Step>) -> bool {
-    debug!("push_godan_negative_root: {chars:?}");
+fn push_godan_negative_root(chars: Vec<char>, roots: &mut Vec<Root>, steps: Vec<Step>) {
+    debug!("push_godan_negative_root: {chars:?}, {steps:?}");
     match chars.last() {
         Some('ら') => {
             // Godan ru
@@ -481,13 +495,12 @@ fn push_godan_negative_root(chars: Vec<char>, roots: &mut Vec<Root>, steps: Vec<
         Some('せ') => {
             push_causative(steps, chars.init().to_owned(), roots);
         }
-        _ => return false,
+        _ => {}
     }
-    true
 }
 
 fn deconj_te(roots: &mut Vec<Root>, chars: Vec<char>, steps: Vec<Step>) {
-    debug!("deconj_te");
+    debug!("deconj_te: {chars:?}, {steps:?}");
     roots.push(Root {
         text: chars.to_string(),
         kind: RootKind::GodanTsu,
@@ -497,6 +510,7 @@ fn deconj_te(roots: &mut Vec<Root>, chars: Vec<char>, steps: Vec<Step>) {
 }
 
 fn push_te_root(roots: &mut Vec<Root>, chars: Vec<char>, steps: Vec<Step>) {
+    debug!("push_te_root: {chars:?}, {steps:?}");
     match chars.last() {
         Some('っ') => {
             // Godan ru て
@@ -616,7 +630,7 @@ fn push_de_root(roots: &mut Vec<Root>, chars: Vec<char>, steps: Vec<Step>) {
 }
 
 fn deconj_ta(roots: &mut Vec<Root>, mut chars: Vec<char>, mut steps: Vec<Step>) {
-    debug!("deconj_ta");
+    debug!("deconj_ta: {chars:?}, {steps:?}");
     steps.insert(0, Step::Ta);
     push_ta_root(chars.clone(), roots, steps.clone());
     match chars.pop() {
@@ -654,7 +668,7 @@ fn deconj_ta(roots: &mut Vec<Root>, mut chars: Vec<char>, mut steps: Vec<Step>) 
 }
 
 fn push_ta_root(chars: Vec<char>, roots: &mut Vec<Root>, steps: Vec<Step>) {
-    debug!("push_ta_root");
+    debug!("push_ta_root: {chars:?}, {steps:?}");
     push_e_root(
         roots,
         chars.clone(),
@@ -763,7 +777,7 @@ fn push_da_root(chars: Vec<char>, roots: &mut Vec<Root>, steps: Vec<Step>) {
 }
 
 fn deconj_u(roots: &mut Vec<Root>, mut chars: Vec<char>, steps: Vec<Step>) {
-    debug!("deconj_u");
+    debug!("deconj_u: {chars:?}, {steps:?}");
     match chars.last() {
         Some('よ') => {
             roots.push(Root {
@@ -844,7 +858,7 @@ fn deconj_u(roots: &mut Vec<Root>, mut chars: Vec<char>, steps: Vec<Step>) {
 }
 
 fn deconj_small_ya(roots: &mut Vec<Root>, mut chars: Vec<char>, mut steps: Vec<Step>) {
-    debug!("deconj_small_yau");
+    debug!("deconj_small_yau: {chars:?}, {steps:?}");
     match ldbg!(log::Level::Debug, chars.pop()) {
         Some('ち') => {
             steps.insert(0, Step::Chau);
@@ -859,7 +873,7 @@ fn deconj_small_ya(roots: &mut Vec<Root>, mut chars: Vec<char>, mut steps: Vec<S
 }
 
 fn deconj_small_you(roots: &mut Vec<Root>, mut chars: Vec<char>, mut steps: Vec<Step>) {
-    debug!("deconj_small_you: {chars:?}");
+    debug!("deconj_small_you: {chars:?}, {steps:?}");
     let Some('ょ') = chars.pop() else { return };
     if let Some('し') = chars.pop() {
         debug!("しょう...");
@@ -918,14 +932,14 @@ fn deconj_re(roots: &mut Vec<Root>, chars: Vec<char>, _steps: Vec<Step>) {
 }
 
 fn deconj_su(roots: &mut Vec<Root>, chars: Vec<char>, steps: Vec<Step>) {
-    debug!("deconj_su");
+    debug!("deconj_su: {chars:?}, {steps:?}");
     if let Some('ま') = ldbg!(log::Level::Debug, chars.last()) {
         deconj_masu(roots, chars.clone().init().to_owned(), steps)
     }
 }
 
 fn deconj_masu(roots: &mut Vec<Root>, chars: Vec<char>, mut steps: Vec<Step>) {
-    debug!("deconj_masu");
+    debug!("deconj_masu: {chars:?}, {steps:?}");
     steps.insert(0, Step::Masu);
     push_masu_root(chars, roots, steps);
 }
