@@ -45,7 +45,7 @@ fn deconj_expr(mut chars: Vec<char>, roots: &mut Vec<Root>, steps: Vec<Step>) {
         'ね' => deconj_ne(roots, chars, steps),
         'す' => deconj_su(roots, chars, steps),
         'ん' => deconj_n(roots, chars, steps),
-        'る' => deconj_ru(roots, chars, steps),
+        'る' => push_ichidan_root(chars, roots, steps),
         'ず' => deconj_zu(roots, chars, steps),
         'か' => deconj_ka(roots, chars, steps),
         'り' => deconj_ri(roots, chars, steps),
@@ -268,34 +268,6 @@ fn deconj_zu(roots: &mut Vec<Root>, chars: Vec<char>, mut steps: Vec<Step>) {
     push_negative_root(chars, roots, steps);
 }
 
-fn deconj_ru(roots: &mut Vec<Root>, mut chars: Vec<char>, mut steps: Vec<Step>) {
-    debug!("deconj_ru");
-    // Try for potential
-    steps.push(Step::Potential);
-    push_e_root(roots, chars.clone(), steps.clone(), false);
-    steps.pop();
-    match chars.pop() {
-        Some('て') => {
-            steps.push(Step::ContRuAbbrev);
-            deconj_te(roots, chars, steps);
-        }
-        Some('で') => {
-            steps.push(Step::ContRuAbbrev);
-            deconj_de(roots, chars, steps);
-        }
-        Some('い') => push_i_cont_root(steps, chars, roots),
-        Some('せ') => {
-            debug!("seru");
-            push_causative(steps, chars, roots);
-        }
-        Some('れ') => {
-            debug!("reru");
-            push_passive(steps, chars, roots);
-        }
-        _ => {}
-    }
-}
-
 fn push_i_cont_root(mut steps: Vec<Step>, mut chars: Vec<char>, roots: &mut Vec<Root>) {
     match chars.pop() {
         Some('て') => {
@@ -372,7 +344,40 @@ fn deconj_nai(roots: &mut Vec<Root>, chars: Vec<char>, mut steps: Vec<Step>) {
 /// Push both godan and ichidan negative roots
 fn push_negative_root(chars: Vec<char>, roots: &mut Vec<Root>, steps: Vec<Step>) {
     if !push_godan_negative_root(chars.clone(), roots, steps.clone()) {
-        roots.ichidan(chars.to_string(), steps);
+        push_ichidan_root(chars, roots, steps);
+    }
+}
+
+fn push_ichidan_root(mut chars: Vec<char>, roots: &mut Vec<Root>, mut steps: Vec<Step>) {
+    // The whole expression itself can be ichidan
+    roots.ichidan(chars.to_string(), steps.clone());
+    // Then we see what else it could be
+    // Try for potential
+    push_e_root(
+        roots,
+        chars.clone(),
+        steps.clone().with(Step::Potential),
+        false,
+    );
+    match chars.pop() {
+        Some('て') => {
+            steps.push(Step::ContRuAbbrev);
+            deconj_te(roots, chars, steps);
+        }
+        Some('で') => {
+            steps.push(Step::ContRuAbbrev);
+            deconj_de(roots, chars, steps);
+        }
+        Some('い') => push_i_cont_root(steps, chars, roots),
+        Some('せ') => {
+            debug!("seru");
+            push_causative(steps, chars, roots);
+        }
+        Some('れ') => {
+            debug!("reru");
+            push_passive(steps, chars, roots);
+        }
+        _ => {}
     }
 }
 

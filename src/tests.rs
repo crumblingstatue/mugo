@@ -39,6 +39,7 @@ fn test_deconjugate() {
         "わたさないで" => "わた" GodanSu: Naide
         "しんぱいしないで" => "しんぱい" Suru: Naide
         "しんぱいしないで" => "しんぱい" SpecialSuru: Naide
+        "しんじられない" => "しんじ" Ichidan: Potential Nai
         // ぬ
         "うしなわぬ" => "うしな" GodanU: Nu
         // なかった
@@ -114,6 +115,7 @@ fn test_deconjugate() {
         "でてこない" => "でて" Kuru: Nai
         // ず
         "およがず" => "およ" GodanGu: Zu
+        "しんじられず" => "しんじ" Ichidan: Potential Zu
         // なさい
         "あそびなさい" => "あそ" GodanBu: Nasai
         "たのみなさい" => "たの" GodanMu: Nasai
