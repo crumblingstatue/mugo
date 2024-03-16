@@ -31,6 +31,9 @@ fn deconj_expr(chars: &[char], roots: &mut Vec<Root>, steps: Vec<Step>) {
         push_i_adjective_root(roots, &chars[..chars.len() - 3], steps.with(Step::Kereba));
         return;
     }
+    if let Some((chars, ['ま', 'す'])) = chars.split_last_chunk() {
+        push_masu_root(chars, roots, steps.clone().with(Step::Masu));
+    }
     if let Some((chars, ['ま', 'せ', 'ん'])) = chars.split_last_chunk() {
         push_masu_root(chars, roots, steps.clone().with(Step::Masen));
     }
@@ -84,7 +87,6 @@ fn deconj_expr(chars: &[char], roots: &mut Vec<Root>, steps: Vec<Step>) {
                 steps: vec![Step::Imperative],
             });
         }
-        'す' => deconj_su(roots, chars, steps),
         'る' => push_ichidan_root(chars, roots, steps, false),
         'ず' => deconj_zu(roots, chars, steps),
         'か' => deconj_ka(roots, chars, steps),
@@ -725,7 +727,9 @@ fn push_ta_root(chars: &[char], roots: &mut Vec<Root>, steps: Vec<Step>) {
             });
         }
         Some('し') => {
-            deconj_su(roots, chars.init(), steps.clone());
+            if let Some(('ま', chars)) = chars.init().split_last() {
+                push_masu_root(chars, roots, steps.clone().with(Step::Masu))
+            }
             roots.push(Root {
                 text: chars.init().to_string(),
                 kind: RootKind::GodanSu,
@@ -850,17 +854,6 @@ fn deconj_ku(roots: &mut Vec<Root>, chars: &[char], steps: Vec<Step>) {
         kind: RootKind::IAdjective,
         steps: steps.with(Step::AdverbialKu),
     });
-}
-
-fn deconj_su(roots: &mut Vec<Root>, chars: &[char], steps: Vec<Step>) {
-    debug!("deconj_su: {chars:?}, {steps:?}");
-    if let Some('ま') = ldbg!(log::Level::Debug, chars.last()) {
-        deconj_masu(roots, chars.init(), steps)
-    }
-}
-
-fn deconj_masu(roots: &mut Vec<Root>, chars: &[char], steps: Vec<Step>) {
-    push_masu_root(chars, roots, steps.with(Step::Masu));
 }
 
 fn push_masu_root(chars: &[char], roots: &mut Vec<Root>, steps: Vec<Step>) {
