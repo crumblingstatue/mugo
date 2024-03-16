@@ -44,7 +44,7 @@ fn deconj_expr(chars: &[char], roots: &mut Vec<Root>, steps: Vec<Step>) {
         'た' => deconj_ta(roots, chars, steps),
         'だ' => deconj_da(roots, chars, steps),
         'い' => deconj_i(roots, chars, steps),
-        'う' => deconj_u(roots, chars.to_owned(), steps),
+        'う' => deconj_u(roots, chars, steps),
         'く' => deconj_ku(roots, chars, steps),
         'ろ' => deconj_ro(roots, chars, steps),
         'れ' => deconj_re(roots, chars, steps),
@@ -803,7 +803,7 @@ fn push_da_root(chars: &[char], roots: &mut Vec<Root>, steps: Vec<Step>) {
     }
 }
 
-fn deconj_u(roots: &mut Vec<Root>, mut chars: Vec<char>, steps: Vec<Step>) {
+fn deconj_u(roots: &mut Vec<Root>, chars: &[char], steps: Vec<Step>) {
     debug!("deconj_u: {chars:?}, {steps:?}");
     match chars.last() {
         Some('よ') => {
@@ -818,10 +818,9 @@ fn deconj_u(roots: &mut Vec<Root>, mut chars: Vec<char>, steps: Vec<Step>) {
                 steps: steps.with(Step::Volitional),
             });
         }
-        Some('ょ') => deconj_small_you(roots, chars, steps),
+        Some('ょ') => deconj_small_you(roots, chars.to_vec(), steps),
         Some('ゃ') => {
-            chars.pop();
-            deconj_small_ya(roots, chars, steps);
+            deconj_small_ya(roots, chars.init().to_vec(), steps);
         }
         Some('ぼ') => roots.push(Root {
             text: chars.init().to_string(),
