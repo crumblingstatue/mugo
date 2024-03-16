@@ -823,7 +823,11 @@ fn deconj_u(roots: &mut Vec<Root>, chars: &[char], steps: Vec<Step>) {
                 steps: steps.with(Step::Volitional),
             });
         }
-        Some('ょ') => deconj_small_you(roots, chars.to_vec(), steps),
+        Some('ょ') => {
+            if let Some((chars, ['ま', 'し', 'ょ'])) = chars.split_last_chunk() {
+                push_masu_root(chars, roots, steps.with(Step::Invitational));
+            }
+        }
         Some('ゃ') => deconj_small_ya(roots, chars.init(), steps),
         Some('ぼ') => roots.push(Root {
             text: chars.init().to_string(),
@@ -898,18 +902,6 @@ fn deconj_small_ya(roots: &mut Vec<Root>, chars: &[char], mut steps: Vec<Step>) 
             push_de_root(roots, chars.init(), steps);
         }
         _ => {}
-    }
-}
-
-fn deconj_small_you(roots: &mut Vec<Root>, mut chars: Vec<char>, mut steps: Vec<Step>) {
-    debug!("deconj_small_you: {chars:?}, {steps:?}");
-    let Some('ょ') = chars.pop() else { return };
-    if let Some('し') = chars.pop() {
-        debug!("しょう...");
-        if let Some('ま') = chars.pop() {
-            steps.insert(0, Step::Invitational);
-            push_masu_root(&chars, roots, steps);
-        }
     }
 }
 
