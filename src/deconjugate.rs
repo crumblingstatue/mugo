@@ -53,7 +53,7 @@ fn deconj_expr(chars: &[char], roots: &mut Vec<Root>, steps: Vec<Step>) {
         'ず' => deconj_zu(roots, chars, steps),
         'か' => deconj_ka(roots, chars, steps),
         'り' => deconj_ri(roots, chars.to_owned(), steps),
-        'ら' => deconj_ra(roots, chars.to_owned(), steps),
+        'ら' => deconj_ra(roots, chars, steps),
         'ば' => deconj_ba(roots, chars, steps),
         'な' => deconj_na(roots, chars, steps),
         'し' => deconj_shi(roots, chars, steps),
@@ -237,17 +237,20 @@ fn push_e_root(roots: &mut Vec<Root>, mut chars: Vec<char>, steps: Vec<Step>, ba
     }
 }
 
-fn deconj_ra(roots: &mut Vec<Root>, mut chars: Vec<char>, mut steps: Vec<Step>) {
+fn deconj_ra(roots: &mut Vec<Root>, chars: &[char], mut steps: Vec<Step>) {
     debug!("deconj_ra: {chars:?}, {steps:?}");
-    match chars.pop() {
-        Some('が') => {
-            let Some('な') = chars.pop() else { return };
+    let Some((last, chars)) = chars.split_last() else {
+        return;
+    };
+    match last {
+        'が' => {
+            let Some('な') = chars.last() else { return };
             steps.push(Step::Nagara);
-            push_masu_root(&chars, roots, steps);
+            push_masu_root(chars.init(), roots, steps);
         }
-        Some('た') => {
+        'た' => {
             steps.push(Step::Tara);
-            push_ta_root(&chars, roots, steps);
+            push_ta_root(chars, roots, steps);
         }
         _ => {}
     }
