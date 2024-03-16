@@ -156,19 +156,22 @@ fn deconj_na(roots: &mut Vec<Root>, chars: &[char], mut steps: Vec<Step>) {
 fn deconj_ba(roots: &mut Vec<Root>, chars: &[char], mut steps: Vec<Step>) {
     debug!("deconj_ba: {chars:?}, {steps:?}");
     steps.push(Step::Ba);
-    push_e_root(roots, chars.to_owned(), steps, true);
+    push_e_root(roots, chars, steps, true);
 }
 
 // Potential and ba roots are different for ichidan. Shocking, I know.
-fn push_e_root(roots: &mut Vec<Root>, mut chars: Vec<char>, steps: Vec<Step>, ba: bool) {
+fn push_e_root(roots: &mut Vec<Root>, chars: &[char], steps: Vec<Step>, ba: bool) {
     debug!("push_e_root: {chars:?}, {steps:?}");
-    match chars.pop() {
-        Some('え') => roots.push(Root {
+    let Some((last, chars)) = chars.split_last() else {
+        return;
+    };
+    match last {
+        'え' => roots.push(Root {
             text: chars.to_string(),
             kind: RootKind::GodanU,
             steps,
         }),
-        Some('け') => {
+        'け' => {
             roots.push(Root {
                 text: chars.to_string(),
                 kind: RootKind::GodanKu,
@@ -183,47 +186,47 @@ fn push_e_root(roots: &mut Vec<Root>, mut chars: Vec<char>, steps: Vec<Step>, ba
                 });
             }
         }
-        Some('げ') => roots.push(Root {
+        'げ' => roots.push(Root {
             text: chars.to_string(),
             kind: RootKind::GodanGu,
             steps,
         }),
-        Some('せ') => roots.push(Root {
+        'せ' => roots.push(Root {
             text: chars.to_string(),
             kind: RootKind::GodanSu,
             steps,
         }),
-        Some('て') => roots.push(Root {
+        'て' => roots.push(Root {
             text: chars.to_string(),
             kind: RootKind::GodanTsu,
             steps,
         }),
-        Some('ね') => roots.push(Root {
+        'ね' => roots.push(Root {
             text: chars.to_string(),
             kind: RootKind::GodanNu,
             steps,
         }),
-        Some('べ') => roots.push(Root {
+        'べ' => roots.push(Root {
             text: chars.to_string(),
             kind: RootKind::GodanBu,
             steps,
         }),
-        Some('め') => roots.push(Root {
+        'め' => roots.push(Root {
             text: chars.to_string(),
             kind: RootKind::GodanMu,
             steps,
         }),
-        Some('れ') => {
+        'れ' => {
             roots.push(Root {
                 text: chars.to_string(),
                 kind: RootKind::GodanRu,
                 steps: steps.clone(),
             });
             if ba {
-                push_ichidan_root(&chars, roots, steps, false);
-            } else if let Some('ら') = chars.pop() {
+                push_ichidan_root(chars, roots, steps, false);
+            } else if let Some(('ら', chars)) = chars.split_last() {
                 debug!("ra!");
-                push_ichidan_root(&chars, roots, steps.clone(), false);
+                push_ichidan_root(chars, roots, steps.clone(), false);
                 if let Some('こ') = chars.last() {
                     roots.push(Root {
                         text: chars.to_string(),
@@ -399,12 +402,7 @@ fn push_ichidan_root(
     // Then we see what else it could be
     // Try for potential, but only if we're not already in a potential situation
     if steps.first() != Some(&Step::Potential) {
-        push_e_root(
-            roots,
-            chars.to_owned(),
-            steps.clone().with(Step::Potential),
-            false,
-        );
+        push_e_root(roots, chars, steps.clone().with(Step::Potential), false);
     }
     debug!("push_ichidan_root (after e root push): {chars:?}, {steps:?}");
     let terminal = steps.is_empty();
@@ -712,12 +710,7 @@ fn deconj_ta(roots: &mut Vec<Root>, mut chars: Vec<char>, mut steps: Vec<Step>) 
 
 fn push_ta_root(chars: &[char], roots: &mut Vec<Root>, steps: Vec<Step>) {
     debug!("push_ta_root: {chars:?}, {steps:?}");
-    push_e_root(
-        roots,
-        chars.to_vec(),
-        steps.clone().with(Step::Potential),
-        false,
-    );
+    push_e_root(roots, chars, steps.clone().with(Step::Potential), false);
     match chars.last() {
         Some('っ') => {
             // Godan ru
