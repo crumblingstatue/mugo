@@ -675,7 +675,7 @@ fn deconj_ta(roots: &mut Vec<Root>, chars: &[char], mut steps: Vec<Step>) {
     match last {
         'っ' => {
             if let Some('ゃ') = chars.last() {
-                deconj_small_ya(roots, chars.init().to_vec(), steps.clone());
+                deconj_small_ya(roots, chars.init(), steps.clone());
             }
             if let Some(('か', chars)) = chars.split_last() {
                 debug!("かった... い adjective past");
@@ -824,9 +824,7 @@ fn deconj_u(roots: &mut Vec<Root>, chars: &[char], steps: Vec<Step>) {
             });
         }
         Some('ょ') => deconj_small_you(roots, chars.to_vec(), steps),
-        Some('ゃ') => {
-            deconj_small_ya(roots, chars.init().to_vec(), steps);
-        }
+        Some('ゃ') => deconj_small_ya(roots, chars.init(), steps),
         Some('ぼ') => roots.push(Root {
             text: chars.init().to_string(),
             kind: RootKind::GodanBu,
@@ -888,16 +886,16 @@ fn deconj_u(roots: &mut Vec<Root>, chars: &[char], steps: Vec<Step>) {
     }
 }
 
-fn deconj_small_ya(roots: &mut Vec<Root>, mut chars: Vec<char>, mut steps: Vec<Step>) {
+fn deconj_small_ya(roots: &mut Vec<Root>, chars: &[char], mut steps: Vec<Step>) {
     debug!("deconj_small_yau: {chars:?}, {steps:?}");
-    match ldbg!(log::Level::Debug, chars.pop()) {
+    match chars.last() {
         Some('ち') => {
             steps.insert(0, Step::Chau);
-            push_te_root(roots, &chars, steps);
+            push_te_root(roots, chars.init(), steps);
         }
         Some('じ') => {
             steps.insert(0, Step::Chau);
-            push_de_root(roots, &chars, steps);
+            push_de_root(roots, chars.init(), steps);
         }
         _ => {}
     }
