@@ -159,7 +159,7 @@ impl Root {
                     text.push_str("たい");
                 }
                 Step::Ba => {
-                    push_e_root(kind, &mut text);
+                    push_e_root(kind, &mut text, true);
                     text.push('ば');
                 }
                 Step::Nakatta => {
@@ -167,7 +167,7 @@ impl Root {
                     text.push_str("なかった");
                 }
                 Step::Potential => {
-                    push_e_root(kind, &mut text);
+                    push_e_root(kind, &mut text, false);
                     if next_step_disjoint {
                         text.push('る');
                     }
@@ -248,9 +248,9 @@ fn push_chau_root(kind: RootKind, text: &mut String) {
     }
 }
 
-fn push_e_root(kind: RootKind, text: &mut String) {
+fn push_e_root(kind: RootKind, text: &mut String, ba: bool) {
     match kind {
-        RootKind::Ichidan => text.push_str("られ"),
+        RootKind::Ichidan => text.push_str(if ba { "れ" } else { "られ" }),
         RootKind::GodanBu => text.push('べ'),
         RootKind::GodanMu => text.push('め'),
         RootKind::GodanNu => text.push('ね'),

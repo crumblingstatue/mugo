@@ -138,10 +138,11 @@ fn deconj_na(roots: &mut Vec<Root>, chars: Vec<char>, mut steps: Vec<Step>) {
 fn deconj_ba(roots: &mut Vec<Root>, chars: Vec<char>, mut steps: Vec<Step>) {
     debug!("deconj_ba");
     steps.push(Step::Ba);
-    push_e_root(roots, chars, steps);
+    push_e_root(roots, chars, steps, true);
 }
 
-fn push_e_root(roots: &mut Vec<Root>, mut chars: Vec<char>, steps: Vec<Step>) {
+// Potential and ba roots are different for ichidan. Shocking, I know.
+fn push_e_root(roots: &mut Vec<Root>, mut chars: Vec<char>, steps: Vec<Step>, ba: bool) {
     debug!("push_e_root: {chars:?}");
     match chars.pop() {
         Some('え') => roots.push(Root {
@@ -190,7 +191,9 @@ fn push_e_root(roots: &mut Vec<Root>, mut chars: Vec<char>, steps: Vec<Step>) {
                 kind: RootKind::GodanRu,
                 steps: steps.clone(),
             });
-            if let Some('ら') = chars.pop() {
+            if ba {
+                roots.ichidan(chars.to_string(), steps);
+            } else if let Some('ら') = chars.pop() {
                 debug!("ra!");
                 roots.ichidan(chars.to_string(), steps.clone());
                 if let Some('こ') = chars.last() {
@@ -259,7 +262,7 @@ fn deconj_ru(roots: &mut Vec<Root>, mut chars: Vec<char>, mut steps: Vec<Step>) 
     debug!("deconj_ru");
     // Try for potential
     steps.push(Step::Potential);
-    push_e_root(roots, chars.clone(), steps.clone());
+    push_e_root(roots, chars.clone(), steps.clone(), false);
     steps.pop();
     match chars.pop() {
         Some('て') => {
@@ -637,7 +640,12 @@ fn deconj_ta(roots: &mut Vec<Root>, mut chars: Vec<char>, mut steps: Vec<Step>) 
 
 fn push_ta_root(chars: Vec<char>, roots: &mut Vec<Root>, steps: Vec<Step>) {
     debug!("push_ta_root");
-    push_e_root(roots, chars.clone(), steps.clone().with(Step::Potential));
+    push_e_root(
+        roots,
+        chars.clone(),
+        steps.clone().with(Step::Potential),
+        false,
+    );
     match chars.last() {
         Some('っ') => {
             // Godan ru
