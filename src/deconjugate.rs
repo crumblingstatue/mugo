@@ -253,10 +253,8 @@ fn deconj_ra(roots: &mut Vec<Root>, chars: &[char], mut steps: Vec<Step>) {
             steps.push(Step::Nagara);
             push_masu_root(chars.init(), roots, steps);
         }
-        'た' => {
-            steps.push(Step::Tara);
-            push_ta_root(chars, roots, steps);
-        }
+        'た' => push_ta_root(chars, roots, steps.with(Step::Tara)),
+        'だ' => push_da_root(chars, roots, steps.with(Step::Tara)),
         _ => {}
     }
 }

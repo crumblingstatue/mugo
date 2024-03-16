@@ -64,6 +64,9 @@ fn test_deconjugate_positive() {
         "あそんだり" => "あそ" GodanBu: Tari
         // たら
         "もどしたら" => "もど" GodanSu: Tara
+        "えらんだら" => "えら" GodanBu: Tara
+        "すすんだら" => "すす" GodanMu: Tara
+        "しんだら" => "し" GodanNu: Tara
         // Volitional
         "かけよう" => "かけ" Ichidan: Volitional
         "いこう" => "い" Iku: Volitional
@@ -257,6 +260,9 @@ fn test_conj() {
         Suru: Causative => "させる"
         IAdjective: Kereba => "ければ"
         GodanSu: Nai Kereba => "さなければ"
+        GodanBu: Tara => "んだら"
+        GodanMu: Tara => "んだら"
+        GodanNu: Tara => "んだら"
     }
 }
 
