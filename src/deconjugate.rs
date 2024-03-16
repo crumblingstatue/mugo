@@ -54,7 +54,7 @@ fn deconj_expr(chars: &[char], roots: &mut Vec<Root>, steps: Vec<Step>) {
         'る' => push_ichidan_root(chars, roots, steps, false),
         'ず' => deconj_zu(roots, chars, steps),
         'か' => deconj_ka(roots, chars, steps),
-        'り' => deconj_ri(roots, chars.to_owned(), steps),
+        'り' => deconj_ri(roots, chars, steps),
         'ら' => deconj_ra(roots, chars, steps),
         'ば' => deconj_ba(roots, chars, steps),
         'な' => deconj_na(roots, chars, steps),
@@ -261,7 +261,7 @@ fn deconj_ra(roots: &mut Vec<Root>, chars: &[char], mut steps: Vec<Step>) {
     }
 }
 
-fn deconj_ri(roots: &mut Vec<Root>, mut chars: Vec<char>, mut steps: Vec<Step>) {
+fn deconj_ri(roots: &mut Vec<Root>, chars: &[char], mut steps: Vec<Step>) {
     debug!("deconj_ri: {chars:?}, {steps:?}");
     // Godan ru verb stem
     roots.push(Root {
@@ -269,14 +269,17 @@ fn deconj_ri(roots: &mut Vec<Root>, mut chars: Vec<char>, mut steps: Vec<Step>) 
         kind: RootKind::GodanRu,
         steps: steps.clone().with(Step::Stem),
     });
-    match chars.pop() {
-        Some('た') => {
+    let Some((last, chars)) = chars.split_last() else {
+        return;
+    };
+    match last {
+        'た' => {
             steps.push(Step::Tari);
-            push_ta_root(&chars, roots, steps);
+            push_ta_root(chars, roots, steps);
         }
-        Some('だ') => {
+        'だ' => {
             steps.push(Step::Tari);
-            push_da_root(&chars, roots, steps);
+            push_da_root(chars, roots, steps);
         }
         _ => (),
     }
