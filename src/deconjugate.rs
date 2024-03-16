@@ -41,7 +41,7 @@ fn deconj_expr(chars: &[char], roots: &mut Vec<Root>, steps: Vec<Step>) {
     match last_ch {
         'て' => deconj_te(roots, chars, steps),
         'で' => deconj_de(roots, chars, steps),
-        'た' => deconj_ta(roots, chars.to_owned(), steps),
+        'た' => deconj_ta(roots, chars, steps),
         'だ' => deconj_da(roots, chars, steps),
         'い' => deconj_i(roots, chars, steps),
         'う' => deconj_u(roots, chars.to_owned(), steps),
@@ -660,18 +660,19 @@ fn push_de_root(roots: &mut Vec<Root>, chars: &[char], steps: Vec<Step>) {
     }
 }
 
-fn deconj_ta(roots: &mut Vec<Root>, mut chars: Vec<char>, mut steps: Vec<Step>) {
+fn deconj_ta(roots: &mut Vec<Root>, chars: &[char], mut steps: Vec<Step>) {
     debug!("deconj_ta: {chars:?}, {steps:?}");
     steps.insert(0, Step::Ta);
-    push_ta_root(&chars, roots, steps.clone());
-    match chars.pop() {
-        Some('っ') => {
+    push_ta_root(chars, roots, steps.clone());
+    let Some((last, chars)) = chars.split_last() else {
+        return;
+    };
+    match last {
+        'っ' => {
             if let Some('ゃ') = chars.last() {
-                let mut chars = chars.clone();
-                chars.pop();
-                deconj_small_ya(roots, chars, steps.clone());
+                deconj_small_ya(roots, chars.init().to_vec(), steps.clone());
             }
-            if let Some('か') = chars.pop() {
+            if let Some(('か', chars)) = chars.split_last() {
                 debug!("かった... い adjective past");
                 steps.pop(); // It's not casual past た after all
                 roots.push(Root {
@@ -679,20 +680,20 @@ fn deconj_ta(roots: &mut Vec<Root>, mut chars: Vec<char>, mut steps: Vec<Step>) 
                     kind: RootKind::IAdjective,
                     steps: steps.clone().with(Step::Katta),
                 });
-                if let Some('な') = chars.pop() {
+                if let Some('な') = chars.last() {
                     steps.insert(0, Step::Nakatta);
-                    push_negative_root(&chars, roots, steps);
+                    push_negative_root(chars.init(), roots, steps);
                 }
             }
         }
-        Some('い') => push_i_cont_root(steps, chars, roots),
-        Some('て') => {
+        'い' => push_i_cont_root(steps, chars.to_vec(), roots),
+        'て' => {
             steps.insert(0, Step::ContRuAbbrev);
-            deconj_te(roots, &chars, steps);
+            deconj_te(roots, chars, steps);
         }
-        Some('で') => {
+        'で' => {
             steps.insert(0, Step::ContRuAbbrev);
-            deconj_de(roots, &chars, steps);
+            deconj_de(roots, chars, steps);
         }
         _ => (),
     }
