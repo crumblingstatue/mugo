@@ -9,11 +9,11 @@ pub fn deconjugate(word: &str) -> Vec<Root> {
     let mut roots = Vec::new();
     let chars: Vec<char> = word.chars().collect();
     let steps = vec![];
-    deconj_expr(chars, &mut roots, steps);
+    deconj_expr(&chars, &mut roots, steps);
     ldbg!(log::Level::Debug, roots)
 }
 
-fn deconj_expr(mut chars: Vec<char>, roots: &mut Vec<Root>, steps: Vec<Step>) {
+fn deconj_expr(chars: &[char], roots: &mut Vec<Root>, steps: Vec<Step>) {
     debug!("deconj_expr: {chars:?}, {steps:?}");
     // Anything can be an い adjective root (I guess)
     roots.push(Root {
@@ -31,37 +31,37 @@ fn deconj_expr(mut chars: Vec<char>, roots: &mut Vec<Root>, steps: Vec<Step>) {
         push_i_adjective_root(roots, &chars[..chars.len() - 3], steps.with(Step::Kereba));
         return;
     }
-    let Some(last_ch) = chars.pop() else {
+    let Some((last_ch, chars)) = chars.split_last() else {
         return;
     };
     log::debug!("last char: {last_ch}");
     match last_ch {
-        'て' => deconj_te(roots, &chars, steps),
-        'で' => deconj_de(roots, &chars, steps),
-        'た' => deconj_ta(roots, chars, steps),
-        'だ' => deconj_da(roots, chars, steps),
-        'い' => deconj_i(roots, chars, steps),
-        'う' => deconj_u(roots, chars, steps),
-        'く' => deconj_ku(roots, &chars, steps),
-        'ろ' => deconj_ro(roots, &chars, steps),
-        'れ' => deconj_re(roots, &chars, steps),
-        'け' => deconj_ke(roots, &chars, steps),
-        'ね' => deconj_ne(roots, &chars, steps),
-        'す' => deconj_su(roots, &chars, steps),
-        'ん' => deconj_n(roots, chars, steps),
-        'る' => push_ichidan_root(&chars, roots, steps, false),
-        'ず' => deconj_zu(roots, &chars, steps),
-        'か' => deconj_ka(roots, &chars, steps),
-        'り' => deconj_ri(roots, chars, steps),
-        'ら' => deconj_ra(roots, chars, steps),
-        'ば' => deconj_ba(roots, &chars, steps),
-        'な' => deconj_na(roots, &chars, steps),
-        'し' => deconj_shi(roots, &chars, steps),
-        'せ' => deconj_se(roots, &chars, steps),
-        'き' => deconj_ki(roots, &chars, steps),
-        'み' => deconj_mi(roots, &chars, steps),
-        'ぬ' => deconj_nu(roots, &chars, steps),
-        'げ' => deconj_ge(roots, &chars, steps),
+        'て' => deconj_te(roots, chars, steps),
+        'で' => deconj_de(roots, chars, steps),
+        'た' => deconj_ta(roots, chars.to_owned(), steps),
+        'だ' => deconj_da(roots, chars.to_owned(), steps),
+        'い' => deconj_i(roots, chars.to_owned(), steps),
+        'う' => deconj_u(roots, chars.to_owned(), steps),
+        'く' => deconj_ku(roots, chars, steps),
+        'ろ' => deconj_ro(roots, chars, steps),
+        'れ' => deconj_re(roots, chars, steps),
+        'け' => deconj_ke(roots, chars, steps),
+        'ね' => deconj_ne(roots, chars, steps),
+        'す' => deconj_su(roots, chars, steps),
+        'ん' => deconj_n(roots, chars.to_owned(), steps),
+        'る' => push_ichidan_root(chars, roots, steps, false),
+        'ず' => deconj_zu(roots, chars, steps),
+        'か' => deconj_ka(roots, chars, steps),
+        'り' => deconj_ri(roots, chars.to_owned(), steps),
+        'ら' => deconj_ra(roots, chars.to_owned(), steps),
+        'ば' => deconj_ba(roots, chars, steps),
+        'な' => deconj_na(roots, chars, steps),
+        'し' => deconj_shi(roots, chars, steps),
+        'せ' => deconj_se(roots, chars, steps),
+        'き' => deconj_ki(roots, chars, steps),
+        'み' => deconj_mi(roots, chars, steps),
+        'ぬ' => deconj_nu(roots, chars, steps),
+        'げ' => deconj_ge(roots, chars, steps),
         _ => {}
     }
 }
@@ -277,7 +277,7 @@ fn deconj_ri(roots: &mut Vec<Root>, mut chars: Vec<char>, mut steps: Vec<Step>) 
 fn deconj_ka(roots: &mut Vec<Root>, chars: &[char], mut steps: Vec<Step>) {
     debug!("deconj_ka: {chars:?}, {steps:?}");
     steps.push(Step::Ka);
-    deconj_expr(chars.to_owned(), roots, steps);
+    deconj_expr(chars, roots, steps);
 }
 
 fn deconj_zu(roots: &mut Vec<Root>, chars: &[char], mut steps: Vec<Step>) {
@@ -775,7 +775,7 @@ fn push_ta_root(chars: Vec<char>, roots: &mut Vec<Root>, steps: Vec<Step>) {
 fn deconj_da(roots: &mut Vec<Root>, mut chars: Vec<char>, steps: Vec<Step>) {
     push_da_root(chars.clone(), roots, steps.clone().with(Step::Ta));
     if let Some('ん') = chars.pop() {
-        deconj_expr(chars, roots, steps.with(Step::Nda));
+        deconj_expr(&chars, roots, steps.with(Step::Nda));
     }
 }
 
