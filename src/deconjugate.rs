@@ -130,7 +130,7 @@ fn deconj_se(roots: &mut Vec<Root>, chars: Vec<char>, steps: Vec<Step>) {
         steps: steps.clone().with(Step::Imperative),
     });
     // Causative stem
-    push_causative(steps.with(Step::Stem), chars, roots);
+    push_causative(steps.with(Step::Stem), &chars, roots);
 }
 
 fn deconj_shi(roots: &mut Vec<Root>, chars: Vec<char>, steps: Vec<Step>) {
@@ -300,22 +300,22 @@ fn push_i_cont_root(mut steps: Vec<Step>, mut chars: Vec<char>, roots: &mut Vec<
     }
 }
 
-fn push_causative(mut steps: Vec<Step>, chars: Vec<char>, roots: &mut Vec<Root>) {
+fn push_causative(mut steps: Vec<Step>, chars: &[char], roots: &mut Vec<Root>) {
     debug!("push_causative: {chars:?}, {steps:?}");
     steps.insert(0, Step::Causative);
     if let Some('さ') = ldbg!(log::Level::Debug, chars.last()) {
         push_ichidan_root(chars.init(), roots, steps.clone(), true);
     }
-    push_godan_negative_root(&chars, roots, steps);
+    push_godan_negative_root(chars, roots, steps);
 }
 
-fn push_passive(mut steps: Vec<Step>, chars: Vec<char>, roots: &mut Vec<Root>) {
+fn push_passive(mut steps: Vec<Step>, chars: &[char], roots: &mut Vec<Root>) {
     debug!("push_passive: {chars:?}, {steps:?}");
     steps.insert(0, Step::Passive);
     if let Some('ら') = ldbg!(log::Level::Debug, chars.last()) {
         push_ichidan_root(chars.init(), roots, steps.clone(), false);
     }
-    push_godan_negative_root(&chars, roots, steps);
+    push_godan_negative_root(chars, roots, steps);
 }
 
 fn deconj_n(roots: &mut Vec<Root>, mut chars: Vec<char>, mut steps: Vec<Step>) {
@@ -422,11 +422,11 @@ fn push_ichidan_root(
         Some('い') => push_i_cont_root(steps, chars.init().to_owned(), roots),
         Some('せ') => {
             debug!("seru");
-            push_causative(steps, chars.init().to_owned(), roots);
+            push_causative(steps, chars.init(), roots);
         }
         Some('れ') => {
             debug!("reru");
-            push_passive(steps, chars.init().to_owned(), roots);
+            push_passive(steps, chars.init(), roots);
         }
         _ => {}
     }
@@ -530,7 +530,7 @@ fn push_godan_negative_root(chars: &[char], roots: &mut Vec<Root>, steps: Vec<St
             });
         }
         Some('せ') => {
-            push_causative(steps, chars.init().to_owned(), roots);
+            push_causative(steps, chars.init(), roots);
         }
         _ => {}
     }
@@ -1077,7 +1077,7 @@ impl CharsExt for [char] {
     }
 
     fn init(&self) -> &Self {
-        self.split_last().unwrap_or((&'\0', &[])).1
+        self.get(..self.len() - 1).unwrap_or(&[])
     }
 }
 
