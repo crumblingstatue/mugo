@@ -765,7 +765,7 @@ fn deconj_u(roots: &mut Vec<Root>, chars: &[char], steps: Vec<Step>) {
     let Some((last, chars)) = chars.split_last() else {
         return;
     };
-    let kinds = match dbg!(last) {
+    let kinds = match last {
         'ょ' => {
             if let Some((chars, ['ま', 'し'])) = chars.split_last_chunk() {
                 push_masu_root(chars, roots, steps.with(Step::Invitational));
