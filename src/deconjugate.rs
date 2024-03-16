@@ -953,81 +953,27 @@ fn push_masu_root(chars: &[char], roots: &mut Vec<Root>, steps: Vec<Step>) {
         kind: RootKind::Ichidan,
         steps: steps.clone(),
     });
-    match chars.last() {
-        Some('い') => {
-            roots.push(Root {
-                text: chars.init().to_string(),
-                kind: RootKind::GodanU,
-                steps,
-            });
-        }
-        Some('き') => {
-            roots.push(Root {
-                text: chars.init().to_string(),
-                kind: RootKind::GodanKu,
-                steps: steps.clone(),
-            });
-            roots.push(Root {
-                text: chars.init().to_string(),
-                kind: RootKind::Kuru,
-                steps: steps.clone(),
-            });
-            roots.push(Root {
-                text: chars.init().to_string(),
-                kind: RootKind::Iku,
-                steps,
-            })
-        }
-        Some('ぎ') => {
-            roots.push(Root {
-                text: chars.init().to_string(),
-                kind: RootKind::GodanGu,
-                steps,
-            });
-        }
-        Some('し') => {
-            roots.push(Root {
-                text: chars.init().to_string(),
-                kind: RootKind::GodanSu,
-                steps,
-            });
-        }
-        Some('ち') => {
-            roots.push(Root {
-                text: chars.init().to_string(),
-                kind: RootKind::GodanTsu,
-                steps,
-            });
-        }
-        Some('に') => {
-            roots.push(Root {
-                text: chars.init().to_string(),
-                kind: RootKind::GodanNu,
-                steps,
-            });
-        }
-        Some('び') => {
-            roots.push(Root {
-                text: chars.init().to_string(),
-                kind: RootKind::GodanBu,
-                steps,
-            });
-        }
-        Some('み') => {
-            roots.push(Root {
-                text: chars.init().to_string(),
-                kind: RootKind::GodanMu,
-                steps,
-            });
-        }
-        Some('り') => {
-            roots.push(Root {
-                text: chars.init().to_string(),
-                kind: RootKind::GodanRu,
-                steps,
-            });
-        }
-        _ => {}
+    let Some((last, chars)) = chars.split_last() else {
+        return;
+    };
+    let kinds = match last {
+        'い' => &[RootKind::GodanU],
+        'き' => &[RootKind::GodanKu, RootKind::Kuru, RootKind::Iku][..],
+        'ぎ' => &[RootKind::GodanGu],
+        'し' => &[RootKind::GodanSu],
+        'ち' => &[RootKind::GodanTsu],
+        'に' => &[RootKind::GodanNu],
+        'び' => &[RootKind::GodanBu],
+        'み' => &[RootKind::GodanMu],
+        'り' => &[RootKind::GodanRu],
+        _ => &[],
+    };
+    for kind in kinds {
+        roots.push(Root {
+            text: chars.to_string(),
+            kind: *kind,
+            steps: steps.clone(),
+        });
     }
 }
 
