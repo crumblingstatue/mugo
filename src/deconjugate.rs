@@ -792,83 +792,38 @@ fn push_da_root(chars: &[char], roots: &mut Vec<Root>, steps: Vec<Step>) {
 
 fn deconj_u(roots: &mut Vec<Root>, chars: &[char], steps: Vec<Step>) {
     debug!("deconj_u: {chars:?}, {steps:?}");
-    match chars.last() {
-        Some('よ') => {
-            roots.push(Root {
-                text: chars.init().to_string(),
-                kind: RootKind::Ichidan,
-                steps: steps.clone().with(Step::Volitional),
-            });
-            roots.push(Root {
-                text: chars.init().to_string(),
-                kind: RootKind::Kuru,
-                steps: steps.with(Step::Volitional),
-            });
-        }
-        Some('ょ') => {
-            if let Some((chars, ['ま', 'し', 'ょ'])) = chars.split_last_chunk() {
+    let Some((last, chars)) = chars.split_last() else {
+        return;
+    };
+    let kinds = match dbg!(last) {
+        'ょ' => {
+            if let Some((chars, ['ま', 'し'])) = chars.split_last_chunk() {
                 push_masu_root(chars, roots, steps.with(Step::Invitational));
             }
+            return;
         }
-        Some('ゃ') => deconj_small_ya(roots, chars.init(), steps),
-        Some('ぼ') => roots.push(Root {
-            text: chars.init().to_string(),
-            kind: RootKind::GodanBu,
-            steps: steps.with(Step::Volitional),
-        }),
-        Some('も') => roots.push(Root {
-            text: chars.init().to_string(),
-            kind: RootKind::GodanMu,
-            steps: steps.with(Step::Volitional),
-        }),
-        Some('の') => roots.push(Root {
-            text: chars.init().to_string(),
-            kind: RootKind::GodanNu,
-            steps: steps.with(Step::Volitional),
-        }),
-        Some('ろ') => roots.push(Root {
-            text: chars.init().to_string(),
-            kind: RootKind::GodanRu,
-            steps: steps.with(Step::Volitional),
-        }),
-        Some('そ') => roots.push(Root {
-            text: chars.init().to_string(),
-            kind: RootKind::GodanSu,
-            steps: steps.with(Step::Volitional),
-        }),
-        Some('と') => roots.push(Root {
-            text: chars.init().to_string(),
-            kind: RootKind::GodanTsu,
-            steps: steps.with(Step::Volitional),
-        }),
-        Some('こ') => {
-            roots.push(Root {
-                text: chars.init().to_string(),
-                kind: RootKind::GodanKu,
-                steps: steps.clone().with(Step::Volitional),
-            });
-            roots.push(Root {
-                text: chars.init().to_string(),
-                kind: RootKind::Iku,
-                steps: steps.with(Step::Volitional),
-            });
+        'ゃ' => {
+            deconj_small_ya(roots, chars, steps);
+            return;
         }
-        Some('ご') => roots.push(Root {
-            text: chars.init().to_string(),
-            kind: RootKind::GodanGu,
-            steps: steps.with(Step::Volitional),
-        }),
-        Some('お') => roots.push(Root {
-            text: chars.init().to_string(),
-            kind: RootKind::GodanU,
-            steps: steps.with(Step::Volitional),
-        }),
-        None => roots.push(Root {
-            text: chars.init().to_string(),
-            kind: RootKind::GodanU,
-            steps: steps.with(Step::Volitional),
-        }),
-        _ => {}
+        'よ' => &[RootKind::Ichidan, RootKind::Kuru][..],
+        'ぼ' => &[RootKind::GodanBu],
+        'も' => &[RootKind::GodanMu],
+        'の' => &[RootKind::GodanNu],
+        'ろ' => &[RootKind::GodanRu],
+        'そ' => &[RootKind::GodanSu],
+        'と' => &[RootKind::GodanTsu],
+        'こ' => &[RootKind::GodanKu, RootKind::Iku][..],
+        'ご' => &[RootKind::GodanGu],
+        'お' => &[RootKind::GodanU],
+        _ => return,
+    };
+    for &kind in kinds {
+        roots.push(Root {
+            text: chars.to_string(),
+            kind,
+            steps: steps.clone().with(Step::Volitional),
+        });
     }
 }
 
