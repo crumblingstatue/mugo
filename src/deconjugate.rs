@@ -297,15 +297,15 @@ fn deconj_zu(roots: &mut Vec<Root>, chars: &[char], mut steps: Vec<Step>) {
     push_negative_root(chars, roots, steps);
 }
 
-fn push_i_cont_root(mut steps: Vec<Step>, mut chars: Vec<char>, roots: &mut Vec<Root>) {
-    match chars.pop() {
+fn push_i_cont_root(mut steps: Vec<Step>, chars: &[char], roots: &mut Vec<Root>) {
+    match chars.last() {
         Some('て') => {
             steps.insert(0, Step::Continuous);
-            deconj_te(roots, &chars, steps);
+            deconj_te(roots, chars.init(), steps);
         }
         Some('で') => {
             steps.insert(0, Step::Continuous);
-            deconj_de(roots, &chars, steps);
+            deconj_de(roots, chars.init(), steps);
         }
         _ => {}
     }
@@ -418,7 +418,7 @@ fn push_ichidan_root(
             }
             deconj_de(roots, chars.init(), steps);
         }
-        Some('い') => push_i_cont_root(steps, chars.init().to_owned(), roots),
+        Some('い') => push_i_cont_root(steps, chars.init(), roots),
         Some('せ') => {
             debug!("seru");
             push_causative(steps, chars.init(), roots);
@@ -691,7 +691,7 @@ fn deconj_ta(roots: &mut Vec<Root>, chars: &[char], mut steps: Vec<Step>) {
                 }
             }
         }
-        'い' => push_i_cont_root(steps, chars.to_vec(), roots),
+        'い' => push_i_cont_root(steps, chars, roots),
         'て' => {
             steps.insert(0, Step::ContRuAbbrev);
             deconj_te(roots, chars, steps);
