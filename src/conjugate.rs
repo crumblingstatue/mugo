@@ -44,7 +44,10 @@ impl Root {
                 Step::Ta => push_ta(kind, &mut text),
                 Step::Nai => {
                     push_neg_root(kind, &mut text);
-                    text.push_str("ない");
+                    text.push('な');
+                    if next_step_disjoint {
+                        text.push('い');
+                    }
                 }
                 Step::Nu => {
                     push_neg_root(kind, &mut text);

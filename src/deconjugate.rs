@@ -67,12 +67,17 @@ fn deconj_expr(mut chars: Vec<char>, roots: &mut Vec<Root>, steps: Vec<Step>) {
 }
 
 fn push_i_adjective_root(roots: &mut Vec<Root>, chars: &[char], steps: Vec<Step>) {
+    debug!("push_i_adjective_root: {chars:?}, {steps:?}");
     // Anything can be an い adjective root (I guess)
     roots.push(Root {
         text: chars.to_string(),
         kind: RootKind::IAdjective,
         steps: steps.clone(),
     });
+    // ない
+    if let Some('な') = chars.last() {
+        push_negative_root(chars.init().to_owned(), roots, steps.with(Step::Nai));
+    }
 }
 
 fn deconj_ge(roots: &mut Vec<Root>, chars: Vec<char>, steps: Vec<Step>) {

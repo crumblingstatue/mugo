@@ -181,6 +181,7 @@ fn test_deconjugate_positive() {
         "はじめたんだ" => "はじめ" Ichidan: Ta Nda
         // ければ
         "かわいければ" => "かわい" IAdjective: Kereba
+        "にげださなければ" => "にげだ" GodanSu: Nai Kereba
     }
 }
 
@@ -255,6 +256,7 @@ fn test_conj() {
         Suru: Te Potential Nai => "してられない"
         Suru: Causative => "させる"
         IAdjective: Kereba => "ければ"
+        GodanSu: Nai Kereba => "さなければ"
     }
 }
 
