@@ -336,7 +336,7 @@ fn deconj_i(roots: &mut Vec<Root>, chars: &[char], mut steps: Vec<Step>) {
     };
     match last {
         'な' => deconj_nai(roots, chars, steps),
-        'さ' => deconj_sai(roots, chars.to_vec(), steps),
+        'さ' => deconj_sai(roots, chars, steps),
         'こ' => roots.push(Root {
             text: chars.to_string(),
             kind: RootKind::Kuru,
@@ -351,10 +351,12 @@ fn deconj_i(roots: &mut Vec<Root>, chars: &[char], mut steps: Vec<Step>) {
     }
 }
 
-fn deconj_sai(roots: &mut Vec<Root>, mut chars: Vec<char>, mut steps: Vec<Step>) {
-    let Some('な') = chars.pop() else { return };
+fn deconj_sai(roots: &mut Vec<Root>, chars: &[char], mut steps: Vec<Step>) {
+    let Some(('な', chars)) = chars.split_last() else {
+        return;
+    };
     steps.push(Step::Nasai);
-    push_masu_root(&chars, roots, steps);
+    push_masu_root(chars, roots, steps);
 }
 
 fn deconj_nai(roots: &mut Vec<Root>, chars: &[char], mut steps: Vec<Step>) {
