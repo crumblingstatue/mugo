@@ -242,7 +242,7 @@ fn test_dict() {
     macro_rules! test_cases {
         ($($root:literal $kind:ident => $kana:literal)+) => {
             $(
-                assert_eq!(&dbg!(Root{text: $root.into(), kind: RootKind::$kind, steps: vec![]}).dict(), $kana);
+                assert_eq!(&dbg!(Root{text: $root.into(), kind: RootKind::$kind, steps: vec![]}).dict_string(), $kana);
             )+
         };
     }

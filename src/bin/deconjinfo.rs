@@ -3,7 +3,7 @@ fn main() {
     eprintln!("Possible root words for '{word}':");
     for root in mugo::deconjugate(&word) {
         dbg!(&root);
-        eprintln!("Dictionary text: {}", root.dict());
+        eprintln!("Dictionary text: {}", root.dict_string());
         eprintln!("Conjugated: {}{}", root.text, root.conjugation_suffix());
     }
 }

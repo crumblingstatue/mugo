@@ -104,26 +104,28 @@ pub enum Step {
 
 impl Root {
     /// Get dictionary form (e.g.) しゃべ + ichidan ru = しゃべる
-    pub fn dict(&self) -> String {
-        let mut txt = self.text.clone();
+    pub fn dict_string(&self) -> String {
+        [&self.text, self.dict_suffix()].concat()
+    }
+    /// Dictionary suffix
+    pub fn dict_suffix(&self) -> &'static str {
         match self.kind {
-            RootKind::Ichidan => txt.push('る'),
-            RootKind::GodanBu => txt.push('ぶ'),
-            RootKind::GodanMu => txt.push('む'),
-            RootKind::GodanNu => txt.push('ぬ'),
-            RootKind::GodanRu => txt.push('る'),
-            RootKind::GodanSu => txt.push('す'),
-            RootKind::GodanTsu => txt.push('つ'),
-            RootKind::GodanU => txt.push('う'),
-            RootKind::GodanGu => txt.push('ぐ'),
-            RootKind::GodanKu => txt.push('く'),
-            RootKind::IAdjective => txt.push('い'),
-            RootKind::Iku => txt.push('く'),
-            RootKind::Kuru => txt.push_str("くる"),
-            RootKind::Suru | RootKind::SpecialSuru => txt.push_str("する"),
-            RootKind::NaAdjective => {}
-        };
-        txt
+            RootKind::Ichidan => "る",
+            RootKind::GodanBu => "ぶ",
+            RootKind::GodanMu => "む",
+            RootKind::GodanNu => "ぬ",
+            RootKind::GodanRu => "る",
+            RootKind::GodanSu => "す",
+            RootKind::GodanTsu => "つ",
+            RootKind::GodanU => "う",
+            RootKind::GodanGu => "ぐ",
+            RootKind::GodanKu => "く",
+            RootKind::IAdjective => "い",
+            RootKind::Iku => "く",
+            RootKind::Kuru => "くる",
+            RootKind::Suru | RootKind::SpecialSuru => "する",
+            RootKind::NaAdjective => "",
+        }
     }
 }
 
