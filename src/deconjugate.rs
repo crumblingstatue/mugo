@@ -31,6 +31,9 @@ fn deconj_expr(chars: &[char], roots: &mut Vec<Root>, steps: Vec<Step>) {
         push_i_adjective_root(roots, &chars[..chars.len() - 3], steps.with(Step::Kereba));
         return;
     }
+    if let Some((chars, ['ま', 'せ', 'ん'])) = chars.split_last_chunk() {
+        push_masu_root(chars, roots, steps.clone().with(Step::Masen));
+    }
     let Some((last_ch, chars)) = chars.split_last() else {
         return;
     };
@@ -48,7 +51,6 @@ fn deconj_expr(chars: &[char], roots: &mut Vec<Root>, steps: Vec<Step>) {
         'け' => deconj_ke(roots, chars, steps),
         'ね' => deconj_ne(roots, chars, steps),
         'す' => deconj_su(roots, chars, steps),
-        'ん' => deconj_n(roots, chars.to_owned(), steps),
         'る' => push_ichidan_root(chars, roots, steps, false),
         'ず' => deconj_zu(roots, chars, steps),
         'か' => deconj_ka(roots, chars, steps),
@@ -322,18 +324,6 @@ fn push_passive(mut steps: Vec<Step>, chars: &[char], roots: &mut Vec<Root>) {
         push_ichidan_root(chars.init(), roots, steps.clone(), false);
     }
     push_godan_negative_root(chars, roots, steps);
-}
-
-fn deconj_n(roots: &mut Vec<Root>, mut chars: Vec<char>, mut steps: Vec<Step>) {
-    debug!("deconj_n: {chars:?}, {steps:?}");
-    let Some('せ') = chars.pop() else {
-        return;
-    };
-    let Some('ま') = chars.pop() else {
-        return;
-    };
-    steps.insert(0, Step::Masen);
-    push_masu_root(&chars, roots, steps);
 }
 
 fn deconj_i(roots: &mut Vec<Root>, chars: &[char], mut steps: Vec<Step>) {
