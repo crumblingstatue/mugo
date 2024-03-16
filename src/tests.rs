@@ -145,6 +145,9 @@ fn test_deconjugate() {
         "こられる" => "こ" Kuru: Potential
         "ぬげる" => "ぬ" GodanGu: Potential
         "すすめる" => "すす" GodanMu: Potential
+        "ゆける" => "ゆ" GodanKu: Potential
+        "ゆける" => "ゆ" Iku: Potential
+        "いける" => "い" Iku: Potential
         // ちゃう/じゃう
         "のんじゃう" => "の" GodanMu: Chau
         "おちちゃった" => "おち" Ichidan: Chau Ta
@@ -226,6 +229,8 @@ fn test_conj() {
         Ichidan: Potential => "られる"
         GodanGu: Imperative => "げ"
         Ichidan: Ba => "れば"
+        GodanKu: Potential => "ける"
+        Iku: Potential => "ける"
     }
 }
 

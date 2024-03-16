@@ -150,11 +150,21 @@ fn push_e_root(roots: &mut Vec<Root>, mut chars: Vec<char>, steps: Vec<Step>, ba
             kind: RootKind::GodanU,
             steps,
         }),
-        Some('け') => roots.push(Root {
-            text: chars.to_string(),
-            kind: RootKind::GodanKu,
-            steps,
-        }),
+        Some('け') => {
+            roots.push(Root {
+                text: chars.to_string(),
+                kind: RootKind::GodanKu,
+                steps: steps.clone(),
+            });
+            // Iku/yuku handling
+            if matches!(chars.last(), Some('い' | 'ゆ')) {
+                roots.push(Root {
+                    text: chars.to_string(),
+                    kind: RootKind::Iku,
+                    steps,
+                });
+            }
+        }
         Some('げ') => roots.push(Root {
             text: chars.to_string(),
             kind: RootKind::GodanGu,
