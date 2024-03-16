@@ -39,7 +39,7 @@ fn deconj_expr(chars: &[char], roots: &mut Vec<Root>, steps: Vec<Step>) {
         'て' => deconj_te(roots, chars, steps),
         'で' => deconj_de(roots, chars, steps),
         'た' => deconj_ta(roots, chars.to_owned(), steps),
-        'だ' => deconj_da(roots, chars.to_owned(), steps),
+        'だ' => deconj_da(roots, chars, steps),
         'い' => deconj_i(roots, chars.to_owned(), steps),
         'う' => deconj_u(roots, chars.to_owned(), steps),
         'く' => deconj_ku(roots, chars, steps),
@@ -772,10 +772,10 @@ fn push_ta_root(chars: Vec<char>, roots: &mut Vec<Root>, steps: Vec<Step>) {
     }
 }
 
-fn deconj_da(roots: &mut Vec<Root>, mut chars: Vec<char>, steps: Vec<Step>) {
-    push_da_root(chars.clone(), roots, steps.clone().with(Step::Ta));
-    if let Some('ん') = chars.pop() {
-        deconj_expr(&chars, roots, steps.with(Step::Nda));
+fn deconj_da(roots: &mut Vec<Root>, chars: &[char], steps: Vec<Step>) {
+    push_da_root(chars.to_vec(), roots, steps.clone().with(Step::Ta));
+    if let Some(('ん', init)) = chars.split_last() {
+        deconj_expr(init, roots, steps.with(Step::Nda));
     }
 }
 
