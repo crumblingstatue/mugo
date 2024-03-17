@@ -53,6 +53,11 @@ fn deconj_expr(chars: &[char], roots: &mut Vec<Root>, steps: Vec<Step>) {
         'た' => deconj_ta(roots, chars, steps),
         'だ' => deconj_da(roots, chars, steps),
         'い' => deconj_i(roots, chars, steps),
+        'さ' => roots.push(Root {
+            text: chars.to_string(),
+            kind: RootKind::IAdjective,
+            steps: steps.with(Step::Sa),
+        }),
         'う' => deconj_u(roots, chars, steps),
         'く' => deconj_ku(roots, chars, steps),
         'ろ' => roots.push(Root {

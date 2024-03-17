@@ -118,6 +118,8 @@ pub enum Step {
     Kereba,
     /// Nakereba short form
     Nakya,
+    /// Adjective さ suffix
+    Sa,
 }
 
 impl Root {

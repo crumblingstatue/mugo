@@ -201,6 +201,9 @@ impl Root {
                     push_neg_root(kind, &mut text);
                     text.push_str("なきゃ");
                 }
+                Step::Sa => {
+                    text.push('さ');
+                }
             }
         }
         text
