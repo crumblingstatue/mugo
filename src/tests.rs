@@ -91,6 +91,8 @@ fn test_deconjugate_positive() {
         "いきます" => "い" Iku: Masu
         // たい
         "つらぬきたい" => "つらぬ" GodanKu: Tai
+        "あいたく" => "あ" GodanU: Tai AdverbialKu
+        "しにたくない" => "し" GodanNu: Tai AdverbialKu Nai
         // Masen
         "すみません" => "す" GodanMu: Masen
         "かりません" => "かり" Ichidan: Masen
@@ -276,6 +278,8 @@ fn test_conj() {
         Kuru: Volitional => "こよう"
         GodanRu: Nakya => "らなきゃ"
         IAdjective: Sa => "さ"
+        GodanU: Tai AdverbialKu => "いたく"
+        GodanNu: Tai AdverbialKu Nai => "にたくない"
     }
 }
 

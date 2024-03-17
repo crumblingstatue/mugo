@@ -59,7 +59,7 @@ fn deconj_expr(chars: &[char], roots: &mut Vec<Root>, steps: Vec<Step>) {
             steps: steps.with(Step::Sa),
         }),
         'う' => deconj_u(roots, chars, steps),
-        'く' => deconj_ku(roots, chars, steps),
+        'く' => push_i_adjective_root(roots, chars, steps.with(Step::AdverbialKu)),
         'ろ' => roots.push(Root {
             text: chars.to_string(),
             kind: RootKind::Ichidan,
@@ -122,9 +122,13 @@ fn push_i_adjective_root(roots: &mut Vec<Root>, chars: &[char], steps: Vec<Step>
         kind: RootKind::IAdjective,
         steps: steps.clone(),
     });
-    // ない
-    if let Some('な') = chars.last() {
-        push_negative_root(chars.init(), roots, steps.with(Step::Nai));
+    let Some((last, chars)) = chars.split_last() else {
+        return;
+    };
+    match last {
+        'な' => push_negative_root(chars, roots, steps.with(Step::Nai)),
+        'た' => push_masu_root(chars, roots, steps.with(Step::Tai)),
+        _ => {}
     }
 }
 
@@ -333,7 +337,7 @@ fn push_causative(steps: Vec<Step>, chars: &[char], roots: &mut Vec<Root>) {
             true,
         );
     }
-    push_godan_negative_root(chars, roots, steps.with(Step::Causative));
+    push_other_negative_root(chars, roots, steps.with(Step::Causative));
 }
 
 fn push_passive(steps: Vec<Step>, chars: &[char], roots: &mut Vec<Root>) {
@@ -346,7 +350,7 @@ fn push_passive(steps: Vec<Step>, chars: &[char], roots: &mut Vec<Root>) {
             false,
         );
     }
-    push_godan_negative_root(chars, roots, steps.with(Step::Passive));
+    push_other_negative_root(chars, roots, steps.with(Step::Passive));
 }
 
 fn deconj_i(roots: &mut Vec<Root>, chars: &[char], steps: Vec<Step>) {
@@ -382,7 +386,7 @@ fn deconj_nai(roots: &mut Vec<Root>, chars: &[char], steps: Vec<Step>) {
 /// Push both godan and ichidan negative roots
 fn push_negative_root(chars: &[char], roots: &mut Vec<Root>, steps: Vec<Step>) {
     debug!("push_negative_root: : {chars:?}, {steps:?}");
-    push_godan_negative_root(chars, roots, steps.clone());
+    push_other_negative_root(chars, roots, steps.clone());
     push_ichidan_root(chars, roots, steps, false);
 }
 
@@ -445,8 +449,8 @@ fn push_ichidan_root(
     }
 }
 
-/// Push godan negative root, return false if there is no godan root match
-fn push_godan_negative_root(chars: &[char], roots: &mut Vec<Root>, steps: Vec<Step>) {
+/// Godan, and other negative root handling
+fn push_other_negative_root(chars: &[char], roots: &mut Vec<Root>, steps: Vec<Step>) {
     debug!("push_godan_negative_root: {chars:?}, {steps:?}");
     match chars.last() {
         Some('ら') => {
@@ -545,6 +549,7 @@ fn push_godan_negative_root(chars: &[char], roots: &mut Vec<Root>, steps: Vec<St
         Some('せ') => {
             push_causative(steps, chars.init(), roots);
         }
+        Some('く') => push_i_adjective_root(roots, chars.init(), steps.with(Step::AdverbialKu)),
         _ => {}
     }
 }
@@ -811,15 +816,8 @@ fn deconj_small_ya(roots: &mut Vec<Root>, chars: &[char], steps: Vec<Step>) {
     }
 }
 
-fn deconj_ku(roots: &mut Vec<Root>, chars: &[char], steps: Vec<Step>) {
-    roots.push(Root {
-        text: chars.to_string(),
-        kind: RootKind::IAdjective,
-        steps: steps.with(Step::AdverbialKu),
-    });
-}
-
 fn push_masu_root(chars: &[char], roots: &mut Vec<Root>, steps: Vec<Step>) {
+    debug!("push_masu_root: {chars:?}, {steps:?}");
     roots.push(Root {
         text: chars.to_string(),
         kind: RootKind::Ichidan,

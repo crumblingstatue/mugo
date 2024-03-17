@@ -161,6 +161,7 @@ impl Step {
             Step::Potential => RootKind::Ichidan,
             Step::Chau => RootKind::GodanU,
             Step::Causative => RootKind::Ichidan,
+            Step::Tai => RootKind::IAdjective,
             _ => return None,
         })
     }

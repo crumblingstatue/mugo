@@ -27,6 +27,8 @@ impl Root {
                 match step {
                     Step::Ka => text.push('か'),
                     Step::Nda => text.push_str("んだ"),
+                    // Nai after something that doesn't have a root... I guess. Just push ない.
+                    Step::Nai => text.push_str("ない"),
                     _ => text.push_str("###BUG###"),
                 }
                 continue;
@@ -144,7 +146,7 @@ impl Root {
                             text.pop();
                             text.push_str("させ");
                         }
-                        RootKind::IAdjective => todo!(),
+                        RootKind::IAdjective => text.push_str("###TODO###"),
                         _ => text.push('せ'),
                     }
                     if next_step_disjoint {
@@ -164,7 +166,10 @@ impl Root {
                 }
                 Step::Tai => {
                     push_masu_root_naked(kind, &mut text);
-                    text.push_str("たい");
+                    text.push('た');
+                    if next_step_disjoint {
+                        text.push('い');
+                    }
                 }
                 Step::Ba => {
                     push_e_root(kind, &mut text, true);
@@ -297,7 +302,7 @@ fn push_neg_root(kind: RootKind, text: &mut String) {
         RootKind::GodanKu => text.push('か'),
         RootKind::Iku => text.push('か'),
         RootKind::Kuru => text.push('こ'),
-        RootKind::IAdjective => todo!(),
+        RootKind::IAdjective => text.push_str("###TODO###"),
         RootKind::NaAdjective => todo!(),
         RootKind::Suru | RootKind::SpecialSuru => text.push('し'),
     }
