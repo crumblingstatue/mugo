@@ -3,7 +3,7 @@ use {
         deconjugate,
         root::{Root, RootKind, Step},
     },
-    owo_colors::OwoColorize,
+    owo_colors::{AnsiColors, OwoColorize},
     std::io::Write as _,
 };
 
@@ -141,6 +141,8 @@ fn test_deconjugate_positive() {
         // Passive
         "うごかれる" => "うご" GodanKu: Passive
         "あけられる" => "あけ" Ichidan: Passive
+        // Causative passive
+        "まわらされる" => "まわ" GodanRu: Causative Passive
         // Yes, it's true, it's both passive AND potential. Same conjugation.
         "あけられる" => "あけ" Ichidan: Potential
         // ば
@@ -280,6 +282,8 @@ fn test_conj() {
         IAdjective: Sa => "さ"
         GodanU: Tai AdverbialKu => "いたく"
         GodanNu: Tai AdverbialKu Nai => "にたくない"
+        GodanRu: Causative => "らせる"
+        GodanRu: Causative Passive => "らされる"
     }
 }
 
@@ -312,12 +316,19 @@ fn init_logger() {
     INIT.call_once(|| {
         env_logger::builder()
             .format(|buf, rec| {
+                let color = match rec.level() {
+                    log::Level::Error => AnsiColors::Red,
+                    log::Level::Warn => AnsiColors::Yellow,
+                    log::Level::Info => AnsiColors::Green,
+                    log::Level::Debug => AnsiColors::Blue,
+                    log::Level::Trace => AnsiColors::White,
+                };
                 writeln!(
                     buf,
                     "{}:{}: {} {}",
                     rec.file().unwrap().yellow(),
                     rec.line().unwrap().red(),
-                    rec.level().blue(),
+                    rec.level().color(color),
                     rec.args()
                 )
             })

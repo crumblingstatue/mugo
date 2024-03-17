@@ -1,12 +1,12 @@
 use {
     crate::{Root, RootKind, Step},
-    log::debug,
+    log::{debug, info},
 };
 
 impl Root {
     /// Returns the suffix that's needed to be appended in order to conjugate this root
     pub fn conjugation_suffix(&self) -> String {
-        debug!("conjugation_suffix {:?}: {:?}", self.kind, self.steps);
+        info!("conjugation_suffix {:?}: {:?}", self.kind, self.steps);
         let mut text = String::new();
         if self.steps.is_empty() {
             // Verb stem handling
@@ -155,10 +155,18 @@ impl Root {
                 }
                 Step::Passive => {
                     push_neg_root(kind, &mut text);
-                    match kind {
+                    match self.kind {
                         RootKind::Ichidan => text.push_str("られ"),
                         RootKind::IAdjective => todo!(),
-                        _ => text.push('れ'),
+                        _ => {
+                            if let Some(Step::Causative) =
+                                i.checked_sub(1).and_then(|i| self.steps.get(i))
+                            {
+                                text.pop();
+                                text.push('さ');
+                            }
+                            text.push('れ');
+                        }
                     }
                     if next_step_disjoint {
                         text.push('る');

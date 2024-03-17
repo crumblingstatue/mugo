@@ -1,6 +1,6 @@
 use {
     crate::root::{Root, RootKind, Step},
-    log::debug,
+    log::{debug, info},
     log_dbg::ldbg,
 };
 
@@ -14,7 +14,7 @@ pub fn deconjugate(word: &str) -> Vec<Root> {
 }
 
 fn deconj_expr(chars: &[char], roots: &mut Vec<Root>, steps: Vec<Step>) {
-    debug!("deconj_expr: {chars:?}, {steps:?}");
+    info!("deconj_expr: {chars:?}, {steps:?}");
     // Anything can be an い adjective root (I guess)
     roots.push(Root {
         text: chars.to_string(),
@@ -342,13 +342,17 @@ fn push_causative(steps: Vec<Step>, chars: &[char], roots: &mut Vec<Root>) {
 
 fn push_passive(steps: Vec<Step>, chars: &[char], roots: &mut Vec<Root>) {
     debug!("push_passive: {chars:?}, {steps:?}");
-    if let Some('ら') = ldbg!(log::Level::Debug, chars.last()) {
-        push_ichidan_root(
-            chars.init(),
-            roots,
-            steps.clone().with(Step::Passive),
-            false,
-        );
+    match chars.last() {
+        Some('ら') => {
+            push_ichidan_root(
+                chars.init(),
+                roots,
+                steps.clone().with(Step::Passive),
+                false,
+            );
+        }
+        Some('さ') => push_causative(steps.clone().with(Step::Passive), chars.init(), roots),
+        _ => (),
     }
     push_other_negative_root(chars, roots, steps.with(Step::Passive));
 }
@@ -419,31 +423,34 @@ fn push_ichidan_root(
     }
     debug!("push_ichidan_root (after e root push): {chars:?}, {steps:?}");
     let terminal = steps.is_empty();
-    match chars.last() {
-        Some('て') => {
+    let Some((last, chars)) = chars.split_last() else {
+        return;
+    };
+    match last {
+        'て' => {
             // Only add continuous ru handling if it's a terminal step...
             // TODO: Figure out how to handle this mess better
             if terminal {
                 steps.push(Step::ContRuAbbrev);
             }
-            deconj_te(roots, chars.init(), steps);
+            deconj_te(roots, chars, steps);
         }
-        Some('で') => {
+        'で' => {
             // Only add continuous ru handling if it's a terminal step...
             // TODO: Figure out how to handle this mess better
             if terminal {
                 steps.push(Step::ContRuAbbrev);
             }
-            deconj_de(roots, chars.init(), steps);
+            deconj_de(roots, chars, steps);
         }
-        Some('い') => push_i_cont_root(steps, chars.init(), roots),
-        Some('せ') => {
+        'い' => push_i_cont_root(steps, chars, roots),
+        'せ' => {
             debug!("seru");
-            push_causative(steps, chars.init(), roots);
+            push_causative(steps, chars, roots);
         }
-        Some('れ') => {
+        'れ' => {
             debug!("reru");
-            push_passive(steps, chars.init(), roots);
+            push_passive(steps, chars, roots);
         }
         _ => {}
     }
