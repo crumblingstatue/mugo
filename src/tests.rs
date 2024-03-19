@@ -119,6 +119,7 @@ fn test_deconjugate_positive() {
         "こい" => "" Kuru: Imperative
         "きて" => "" Kuru: Te
         "きた" => "" Kuru: Ta
+        "こられる" => "" Kuru: Passive
         "でてこない" => "でて" Kuru: Nai
         // ず
         "およがず" => "およ" GodanGu: Zu
@@ -278,6 +279,7 @@ fn test_conj() {
         Kuru: Masen => "きません"
         Kuru: Masu Ta => "きました"
         Kuru: Volitional => "こよう"
+        Kuru: Passive => "こられる"
         GodanRu: Nakya => "らなきゃ"
         IAdjective: Sa => "さ"
         GodanU: Tai AdverbialKu => "いたく"

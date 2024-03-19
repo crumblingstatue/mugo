@@ -452,6 +452,11 @@ fn push_ichidan_root(
             debug!("reru");
             push_passive(steps, chars, roots);
         }
+        'こ' => roots.push(Root {
+            text: chars.to_string(),
+            kind: RootKind::Kuru,
+            steps,
+        }),
         _ => {}
     }
 }

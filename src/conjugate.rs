@@ -154,7 +154,11 @@ impl Root {
                     }
                 }
                 Step::Passive => {
-                    push_neg_root(kind, &mut text);
+                    if matches!(self.kind, RootKind::Kuru) {
+                        text.push_str("こら");
+                    } else {
+                        push_neg_root(kind, &mut text);
+                    }
                     match self.kind {
                         RootKind::Ichidan => text.push_str("られ"),
                         RootKind::IAdjective => todo!(),
