@@ -28,8 +28,7 @@ fn deconj_expr(chars: &[char], roots: &mut Vec<Root>, steps: Vec<Step>) {
         steps: steps.clone().with(Step::Stem),
     });
     if let Some((chars, ['け', 'れ', 'ば'])) = chars.split_last_chunk() {
-        push_i_adjective_root(roots, chars, steps.with(Step::Kereba));
-        return;
+        push_i_adjective_root(roots, chars, steps.clone().with(Step::Kereba));
     }
     if let Some((chars, ['な', 'き', 'ゃ'])) = chars.split_last_chunk() {
         push_negative_root(chars, roots, steps.with(Step::Nakya));

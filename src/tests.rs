@@ -151,6 +151,7 @@ fn test_deconjugate_positive() {
         "ふりだせば" => "ふりだ" GodanSu: Ba
         "すすめば" => "すす" GodanMu: Ba
         "いれば" => "い" GodanRu: Ba
+        "うければ" => "うけ" Ichidan: Ba
         // Potential
         "あげられる" => "あげ" Ichidan: Potential
         "とれる" => "と" GodanRu: Potential
