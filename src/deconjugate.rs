@@ -42,6 +42,9 @@ fn deconj_expr(chars: &[char], roots: &mut Vec<Root>, steps: Vec<Step>) {
         push_masu_root(chars, roots, steps.clone().with(Step::Masen));
         return;
     }
+    if let Some((chars, ['て', 'く'])) = chars.split_last_chunk() {
+        push_te_root(roots, chars, steps.clone().with(Step::Teku));
+    }
     let Some((last_ch, chars)) = chars.split_last() else {
         return;
     };

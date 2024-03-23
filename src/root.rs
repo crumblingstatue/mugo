@@ -120,6 +120,8 @@ pub enum Step {
     Nakya,
     /// Adjective さ suffix
     Sa,
+    /// て + いく abbreviation
+    Teku,
 }
 
 impl Root {

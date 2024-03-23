@@ -197,6 +197,9 @@ fn test_deconjugate_positive() {
         // さ
         "やさしさ" => "やさし" IAdjective: Sa
         "つよさ" => "つよ" IAdjective: Sa
+        // てく
+        "ふりはらってく" => "ふりはら" GodanU: Teku
+        "かわってく" => "かわ" GodanRu: Teku
     }
 }
 
@@ -287,6 +290,8 @@ fn test_conj() {
         GodanNu: Tai AdverbialKu Nai => "にたくない"
         GodanRu: Causative => "らせる"
         GodanRu: Causative Passive => "らされる"
+        GodanU: Teku => "ってく"
+        GodanRu: Teku => "ってく"
     }
 }
 

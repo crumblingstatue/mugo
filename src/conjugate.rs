@@ -43,6 +43,11 @@ impl Root {
                     push_te_root(kind, &mut text);
                     text.push(te_char(kind));
                 }
+                Step::Teku => {
+                    push_te_root(kind, &mut text);
+                    text.push(te_char(kind));
+                    text.push('く');
+                }
                 Step::Ta => push_ta(kind, &mut text),
                 Step::Nai => {
                     push_neg_root(kind, &mut text);
