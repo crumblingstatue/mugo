@@ -83,6 +83,7 @@ fn test_deconjugate_positive() {
         "つくせ" => "つく" GodanSu: Imperative
         "うて" => "う" GodanTsu: Imperative
         "いそげ" => "いそ" GodanGu: Imperative
+        "たたかえ" => "たたか" GodanU: Imperative
         // ます
         "たべます" => "たべ" Ichidan: Masu
         "のみます" => "の" GodanMu: Masu
@@ -292,6 +293,7 @@ fn test_conj() {
         GodanRu: Causative Passive => "らされる"
         GodanU: Teku => "ってく"
         GodanRu: Teku => "ってく"
+        GodanU: Imperative => "え"
     }
 }
 

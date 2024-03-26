@@ -60,6 +60,11 @@ fn deconj_expr(chars: &[char], roots: &mut Vec<Root>, steps: Vec<Step>) {
             kind: RootKind::IAdjective,
             steps: steps.with(Step::Sa),
         }),
+        'え' => roots.push(Root {
+            text: chars.to_string(),
+            kind: RootKind::GodanU,
+            steps: steps.with(Step::Imperative),
+        }),
         'う' => deconj_u(roots, chars, steps),
         'く' => push_i_adjective_root(roots, chars, steps.with(Step::AdverbialKu)),
         'ろ' => roots.push(Root {
