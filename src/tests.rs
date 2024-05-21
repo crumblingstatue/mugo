@@ -55,6 +55,7 @@ fn test_deconjugate_positive() {
         "しんだ" => "し" GodanNu: Ta
         "はなした" => "はな" GodanSu: Ta
         "つかった" => "つか" GodanU: Ta
+        "行った" => "行" GodanU: Ta
         "つらぬいた" => "つらぬ" GodanKu: Ta
         "さわいだ" => "さわ" GodanGu: Ta
         // Potential た
@@ -317,6 +318,7 @@ fn test_dict() {
         "" Kuru => "くる"
         "でて" Kuru => "でてくる"
         "やさし" IAdjective => "やさしい"
+        "行" GodanU => "行う"
     }
 }
 
