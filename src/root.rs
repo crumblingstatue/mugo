@@ -55,6 +55,31 @@ pub enum RootKind {
     NaAdjective,
 }
 
+#[cfg(feature = "labels")]
+impl RootKind {
+    /// Return a text label describing this root kind
+    pub fn label(&self) -> &'static str {
+        match self {
+            RootKind::Ichidan => "ichidan",
+            RootKind::GodanBu => "ぶ",
+            RootKind::GodanMu => "む",
+            RootKind::GodanNu => "ぬ",
+            RootKind::GodanRu => "godan る",
+            RootKind::GodanSu => "す",
+            RootKind::GodanTsu => "つ",
+            RootKind::GodanU => "う",
+            RootKind::GodanGu => "ぐ",
+            RootKind::GodanKu => "く",
+            RootKind::Iku => "行く",
+            RootKind::Kuru => "来る",
+            RootKind::Suru => "する",
+            RootKind::SpecialSuru => "する (special)",
+            RootKind::IAdjective => "い adjective",
+            RootKind::NaAdjective => "な adjective",
+        }
+    }
+}
+
 /// A conjugation step
 #[derive(Debug, PartialEq, Clone)]
 pub enum Step {
@@ -122,6 +147,50 @@ pub enum Step {
     Sa,
     /// て + いく abbreviation
     Teku,
+}
+
+#[cfg(feature = "labels")]
+impl Step {
+    /// Return a text label describing this step
+    pub fn label(&self) -> &'static str {
+        match self {
+            Step::Te => "て",
+            Step::Teku => "てく (て + いく)",
+            Step::Nai => "ない",
+            Step::Naide => "ないで",
+            Step::Nakatta => "なかった",
+            Step::Ta => "た",
+            Step::Volitional => "volitional",
+            Step::AdverbialKu => "く (adverb)",
+            Step::Imperative => "imperative",
+            Step::Masu => "ます",
+            Step::Masen => "ません",
+            Step::Invitational => "invitational",
+            Step::Continuous => "ている",
+            Step::ContRuAbbrev => "てる",
+            Step::Zu => "ず",
+            Step::Ka => "か",
+            Step::Tari => "たり",
+            Step::Tara => "たら",
+            Step::Nasai => "なさい",
+            Step::Nagara => "ながら",
+            Step::Causative => "causative",
+            Step::Passive => "passive",
+            Step::Tai => "たい",
+            Step::Ba => "ば (conditional)",
+            Step::Potential => "potential",
+            Step::Chau => "ちゃう",
+            Step::Na => "な",
+            Step::Katta => "かった",
+            Step::Stem => "stem",
+            Step::Nu => "ぬ",
+            Step::Ki => "き (archaic い)",
+            Step::Nda => "んだ",
+            Step::Kereba => "ければ",
+            Step::Nakya => "なきゃ",
+            Step::Sa => "さ",
+        }
+    }
 }
 
 impl Root {

@@ -3,6 +3,10 @@ name = "mugo"
 version = "0.1.0"
 edition = "2021"
 
+[features]
+# Labels for `RootKind` and `Step`
+labels = []
+
 [dependencies]
 log = "0.4.21"
 log-dbg = { git = "https://github.com/crumblingstatue/rust-log-dbg.git" }
