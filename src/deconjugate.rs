@@ -366,6 +366,11 @@ fn push_passive(steps: Vec<Step>, chars: &[char], roots: &mut Vec<Root>) {
 
 fn deconj_i(roots: &mut Vec<Root>, chars: &[char], steps: Vec<Step>) {
     debug!("deconj_i: {chars:?}, {steps:?}");
+    roots.push(Root {
+        text: chars.to_string(),
+        kind: RootKind::GodanU,
+        steps: steps.clone().with(Step::Stem),
+    });
     let Some((last, chars)) = chars.split_last() else {
         return;
     };

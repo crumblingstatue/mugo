@@ -176,6 +176,7 @@ fn test_deconjugate_positive() {
         "ふりむき" => "ふりむ" GodanKu: Stem
         "しずみ" => "しず" GodanMu: Stem
         "ひろげ" => "ひろげ" Ichidan: Stem
+        "あい" => "あ" GodanU: Stem
         // い Adjectives
         "はやく" => "はや" IAdjective: AdverbialKu
         // い past
@@ -295,6 +296,7 @@ fn test_conj() {
         GodanU: Teku => "ってく"
         GodanRu: Teku => "ってく"
         GodanU: Imperative => "え"
+        GodanU: Stem => "い"
     }
 }
 
