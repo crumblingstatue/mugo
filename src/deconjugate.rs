@@ -603,6 +603,10 @@ fn push_te_root(roots: &mut Vec<Root>, chars: &[char], steps: Vec<Step>) {
         'っ' => &[RootKind::GodanRu, RootKind::GodanTsu, RootKind::GodanU, RootKind::Iku][..],
         'い' => &[RootKind::GodanKu],
         'し' => &[RootKind::GodanSu, RootKind::Suru, RootKind::SpecialSuru],
+        'れ' => {
+            push_passive(steps.clone(), chars, roots);
+            return;
+        }
         'き' if chars.is_empty() => &[RootKind::Kuru],
         _ => return,
     };
