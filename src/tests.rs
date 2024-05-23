@@ -146,6 +146,8 @@ fn test_deconjugate_positive() {
         "あけられる" => "あけ" Ichidan: Passive
         // Causative passive
         "まわらされる" => "まわ" GodanRu: Causative Passive
+        // Passive casual past
+        "なられた" => "な" GodanRu: Passive Ta
         // Yes, it's true, it's both passive AND potential. Same conjugation.
         "あけられる" => "あけ" Ichidan: Potential
         // ば

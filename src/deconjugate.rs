@@ -682,6 +682,7 @@ fn deconj_ta(roots: &mut Vec<Root>, chars: &[char], steps: Vec<Step>) {
             }
         }
         'い' => push_i_cont_root(steps.with(Step::Ta), chars, roots),
+        'れ' => push_passive(steps.with(Step::Ta), chars, roots),
         'て' => deconj_te(roots, chars, steps.with(Step::Ta).with(Step::ContRuAbbrev)),
         'で' => deconj_de(roots, chars, steps.with(Step::Ta).with(Step::ContRuAbbrev)),
         _ => (),
