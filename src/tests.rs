@@ -43,6 +43,7 @@ fn test_deconjugate_positive() {
         "じっとしてられない" => "じっと" Suru: Te Potential Nai
         // ぬ
         "うしなわぬ" => "うしな" GodanU: Nu
+        "つきすすめ" => "つきすす" GodanMu: Imperative
         // なかった
         "ならわなかった" => "なら" GodanU: Nakatta
         "こまなかった" => "こ" GodanMu: Nakatta
@@ -207,6 +208,7 @@ fn test_deconjugate_positive() {
         // てく
         "ふりはらってく" => "ふりはら" GodanU: Teku
         "かわってく" => "かわ" GodanRu: Teku
+        "よべ" => "よ" GodanBu: Imperative
     }
 }
 
@@ -301,6 +303,8 @@ fn test_conj() {
         GodanRu: Teku => "ってく"
         GodanU: Imperative => "え"
         GodanU: Stem => "い"
+        GodanMu: Imperative => "め"
+        GodanBu: Imperative => "べ"
     }
 }
 

@@ -105,6 +105,20 @@ fn deconj_expr(chars: &[char], roots: &mut Vec<Root>, steps: Vec<Step>) {
                 steps: vec![Step::Imperative],
             });
         }
+        'め' => {
+            roots.push(Root {
+                text: chars.to_string(),
+                kind: RootKind::GodanMu,
+                steps: steps.clone().with(Step::Imperative),
+            });
+        }
+        'べ' => {
+            roots.push(Root {
+                text: chars.to_string(),
+                kind: RootKind::GodanBu,
+                steps: steps.clone().with(Step::Imperative),
+            });
+        }
         'る' => push_ichidan_root(chars, roots, steps, false),
         'ず' => deconj_zu(roots, chars, steps),
         'か' => deconj_ka(roots, chars, steps),
