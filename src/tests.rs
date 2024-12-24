@@ -305,6 +305,8 @@ fn test_conj() {
         GodanU: Stem => "い"
         GodanMu: Imperative => "め"
         GodanBu: Imperative => "べ"
+        // さまたげさせられている
+        Ichidan: Causative Passive Te Continuous => "させられている"
     }
 }
 

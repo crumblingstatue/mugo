@@ -29,6 +29,8 @@ impl Root {
                     Step::Nda => text.push_str("んだ"),
                     // Nai after something that doesn't have a root... I guess. Just push ない.
                     Step::Nai => text.push_str("ない"),
+                    // Honestly, I have no idea what I'm doing, I'm just patching up test failures
+                    Step::Te => text.push('て'),
                     _ => text.push_str("###BUG###"),
                 }
                 continue;
