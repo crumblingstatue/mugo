@@ -274,7 +274,7 @@ fn test_conj() {
         IAdjective: Ki => "き"
         NaAdjective: Na Nda => "なんだ"
         Ichidan: Ta Nda => "たんだ"
-        Kuru: Nai => "こない" // Fine as long as it's 来る kanji... TODO: Find solution for kanjiless 出てこない
+        Kuru: Nai => "ない" // Fine as long as it's 来る kanji... TODO: Find solution for kanjiless 出てこない
         Ichidan: Potential => "られる"
         GodanGu: Imperative => "げ"
         Ichidan: Ba => "れば"
@@ -287,12 +287,14 @@ fn test_conj() {
         GodanBu: Tara => "んだら"
         GodanMu: Tara => "んだら"
         GodanNu: Tara => "んだら"
-        Kuru: Invitational => "きましょう"
-        Kuru: Masu => "きます"
-        Kuru: Masen => "きません"
-        Kuru: Masu Ta => "きました"
-        Kuru: Volitional => "こよう"
-        Kuru: Passive => "こられる"
+        // TODO: More robust handling of kuru
+        Kuru: Invitational => "ましょう"
+        Kuru: Masu => "ます"
+        Kuru: Masen => "ません"
+        Kuru: Masu Ta => "ました"
+        Kuru: Volitional => "よう"
+        Kuru: Passive => "られる"
+        Kuru: Causative Passive => "させられる"
         GodanRu: Nakya => "らなきゃ"
         IAdjective: Sa => "さ"
         GodanU: Tai AdverbialKu => "いたく"
@@ -308,6 +310,19 @@ fn test_conj() {
         // さまたげさせられている
         Ichidan: Causative Passive Te Continuous => "させられている"
     }
+}
+
+#[test]
+fn test_conj_special() {
+    assert_eq!(
+        Root {
+            text: "来".into(),
+            kind: RootKind::Kuru,
+            steps: vec![Step::Invitational]
+        }
+        .conjugation_suffix(),
+        "ましょう"
+    );
 }
 
 #[test]

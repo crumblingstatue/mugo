@@ -68,7 +68,7 @@ impl Root {
                 }
                 Step::Volitional => match kind {
                     RootKind::Ichidan => text.push_str("よう"),
-                    RootKind::Kuru => text.push_str("こよう"),
+                    RootKind::Kuru => text.push_str("よう"),
                     RootKind::GodanBu => text.push_str("ぼう"),
                     RootKind::GodanMu => text.push_str("もう"),
                     RootKind::GodanNu => text.push_str("のう"),
@@ -149,6 +149,7 @@ impl Root {
                     push_neg_root(kind, &mut text);
                     match kind {
                         RootKind::Ichidan => text.push_str("させ"),
+                        RootKind::Kuru => text.push_str("させ"),
                         RootKind::Suru | RootKind::SpecialSuru => {
                             text.pop();
                             text.push_str("させ");
@@ -162,12 +163,13 @@ impl Root {
                 }
                 Step::Passive => {
                     if matches!(self.kind, RootKind::Kuru) {
-                        text.push_str("こら");
+                        text.push('ら');
                     } else {
                         push_neg_root(kind, &mut text);
                     }
                     match self.kind {
                         RootKind::Ichidan => text.push_str("られ"),
+                        RootKind::Kuru => text.push('れ'),
                         RootKind::IAdjective => todo!(),
                         _ => {
                             if let Some(Step::Causative) =
@@ -300,7 +302,7 @@ fn push_e_root(kind: RootKind, text: &mut String, ba: bool) {
         RootKind::GodanU => text.push('え'),
         RootKind::GodanGu => text.push('げ'),
         RootKind::GodanKu | RootKind::Iku => text.push('け'),
-        RootKind::Kuru => text.push_str("こられ"),
+        RootKind::Kuru => text.push_str("られ"),
         RootKind::IAdjective => todo!(),
         RootKind::NaAdjective => todo!(),
         RootKind::Suru | RootKind::SpecialSuru => todo!("できる special case needed(?)"),
@@ -320,7 +322,7 @@ fn push_neg_root(kind: RootKind, text: &mut String) {
         RootKind::GodanGu => text.push('が'),
         RootKind::GodanKu => text.push('か'),
         RootKind::Iku => text.push('か'),
-        RootKind::Kuru => text.push('こ'),
+        RootKind::Kuru => {}
         RootKind::IAdjective => text.push_str("###TODO###"),
         RootKind::NaAdjective => todo!(),
         RootKind::Suru | RootKind::SpecialSuru => text.push('し'),
@@ -359,7 +361,7 @@ fn push_masu_root_naked(kind: RootKind, text: &mut String) {
         RootKind::GodanGu => text.push('ぎ'),
         RootKind::GodanKu => text.push('き'),
         RootKind::Iku => text.push('き'),
-        RootKind::Kuru => text.push('き'),
+        RootKind::Kuru => {}
         _ => {}
     }
 }
