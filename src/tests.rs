@@ -73,6 +73,7 @@ fn test_deconjugate_positive() {
         "かけよう" => "かけ" Ichidan: Volitional
         "いこう" => "い" Iku: Volitional
         "おもおう" => "おも" GodanU: Volitional
+        "こよう" => "こ" Kuru: Volitional
         // Invitational
         "しにましょう" => "し" GodanNu: Invitational
         "きましょう" => "" Kuru: Invitational
