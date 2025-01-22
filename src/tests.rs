@@ -310,6 +310,7 @@ fn test_conj() {
         GodanBu: Imperative => "べ"
         // さまたげさせられている
         Ichidan: Causative Passive Te Continuous => "させられている"
+        GodanSu: Passive Potential => "されられる"
     }
 }
 

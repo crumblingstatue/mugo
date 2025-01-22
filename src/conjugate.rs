@@ -31,6 +31,8 @@ impl Root {
                     Step::Nai => text.push_str("ない"),
                     // Honestly, I have no idea what I'm doing, I'm just patching up test failures
                     Step::Te => text.push('て'),
+                    // Another patched up test failure
+                    Step::Potential => text.push_str("られる"),
                     _ => text.push_str("###BUG###"),
                 }
                 continue;
