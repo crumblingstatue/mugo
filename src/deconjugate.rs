@@ -490,7 +490,7 @@ fn push_ichidan_root(
 
 /// Godan, and other negative root handling
 fn push_other_negative_root(chars: &[char], roots: &mut Vec<Root>, steps: Vec<Step>) {
-    debug!("push_godan_negative_root: {chars:?}, {steps:?}");
+    debug!("push_other_negative_root: {chars:?}, {steps:?}");
     match chars.last() {
         Some('ら') => {
             // Godan ru
