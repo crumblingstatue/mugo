@@ -226,6 +226,12 @@ fn test_deconjugate_negative() {
     test_cases! {
         "いかない" => "いか" Suru: Nai
     }
+    assert!(
+        deconjugate("これられる")
+            .iter()
+            .find(|root| root.kind == RootKind::Kuru)
+            .is_none()
+    );
 }
 
 #[test]
