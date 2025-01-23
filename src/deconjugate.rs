@@ -8,8 +8,9 @@ pub fn deconjugate(word: &str) -> Vec<Root> {
     let mut roots = Vec::new();
     let chars: Vec<char> = word.chars().collect();
     let steps = vec![];
+    debug!("<BEGIN> deconjugate({word})");
     deconj_expr(&chars, &mut roots, steps);
-    debug!("deconjugate({word}) = {roots:#?}");
+    debug!("<END> deconjugate({word}) = {roots:#?}");
     roots
 }
 
