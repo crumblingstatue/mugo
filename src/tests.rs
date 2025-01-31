@@ -210,6 +210,11 @@ fn test_deconjugate_positive() {
         "ふりはらってく" => "ふりはら" GodanU: Teku
         "かわってく" => "かわ" GodanRu: Teku
         "よべ" => "よ" GodanBu: Imperative
+        // て + おく
+        // full
+        "だまっておく" => "だま" GodanRu: TeOku
+        // contraction
+        "だまっとけ" => "だま" GodanRu: Toku Imperative
     }
 }
 
@@ -318,6 +323,8 @@ fn test_conj() {
         // さまたげさせられている
         Ichidan: Causative Passive Te Continuous => "させられている"
         GodanSu: Passive Potential => "されられる"
+        GodanRu: TeOku => "っておく"
+        GodanRu: Toku Imperative => "っとけ"
     }
 }
 

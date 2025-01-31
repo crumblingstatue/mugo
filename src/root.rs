@@ -147,6 +147,10 @@ pub enum Step {
     Sa,
     /// て + いく abbreviation
     Teku,
+    /// て + おく (do something in advance, etc.)
+    TeOku,
+    /// TeOku abbreviation
+    Toku,
 }
 
 #[cfg(feature = "labels")]
@@ -189,6 +193,8 @@ impl Step {
             Step::Kereba => "ければ",
             Step::Nakya => "なきゃ",
             Step::Sa => "さ",
+            Step::TeOku => "て + おく",
+            Step::Toku => "とく (て + おく)",
         }
     }
 }
@@ -233,6 +239,7 @@ impl Step {
             Step::Chau => RootKind::GodanU,
             Step::Causative => RootKind::Ichidan,
             Step::Tai => RootKind::IAdjective,
+            Step::Teku | Step::TeOku | Step::Toku => RootKind::GodanKu,
             _ => return None,
         })
     }

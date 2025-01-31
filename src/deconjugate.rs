@@ -46,6 +46,20 @@ fn deconj_expr(chars: &[char], roots: &mut Vec<Root>, steps: Vec<Step>) {
     if let Some((chars, ['て', 'く'])) = chars.split_last_chunk() {
         push_te_root(roots, chars, steps.clone().with(Step::Teku));
     }
+    if let Some((chars, ['て', 'お', 'く'])) = chars.split_last_chunk() {
+        push_te_root(roots, chars, steps.clone().with(Step::TeOku));
+    }
+    if let Some((chars, ['と', 'く'])) = chars.split_last_chunk() {
+        push_te_root(roots, chars, steps.clone().with(Step::Toku));
+    }
+    // TODO: Hax special case for imperative
+    if let Some((chars, ['と', 'け'])) = chars.split_last_chunk() {
+        push_te_root(
+            roots,
+            chars,
+            steps.clone().with(Step::Imperative).with(Step::Toku),
+        );
+    }
     let Some((last_ch, chars)) = chars.split_last() else {
         return;
     };

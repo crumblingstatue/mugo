@@ -52,6 +52,20 @@ impl Root {
                     text.push(te_char(kind));
                     text.push('く');
                 }
+                Step::TeOku => {
+                    push_te_root(kind, &mut text);
+                    text.push_str("てお");
+                    if next_step_disjoint {
+                        text.push('く');
+                    }
+                }
+                Step::Toku => {
+                    push_te_root(kind, &mut text);
+                    text.push('と');
+                    if next_step_disjoint {
+                        text.push('く');
+                    }
+                }
                 Step::Ta => push_ta(kind, &mut text),
                 Step::Nai => {
                     push_neg_root(kind, &mut text);
