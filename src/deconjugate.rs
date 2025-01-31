@@ -578,6 +578,12 @@ fn push_other_negative_root(chars: &[char], roots: &mut Vec<Root>, steps: Vec<St
             });
         }
         Some('こ') => {
+            if steps.starts_with(&[Step::Passive, Step::Potential])
+                || steps.starts_with(&[Step::Passive, Step::Passive])
+            {
+                debug!("これ is nonsense conjugation for 来る.");
+                return;
+            }
             // Kuru verb... Also not godan
             roots.push(Root {
                 text: chars.init().to_string(),

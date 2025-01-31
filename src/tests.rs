@@ -226,6 +226,7 @@ fn test_deconjugate_negative() {
     test_cases! {
         "いかない" => "いか" Suru: Nai
     }
+    // これ makes no sense for 来る
     assert!(
         deconjugate("これられる")
             .iter()
