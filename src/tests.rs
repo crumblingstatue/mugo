@@ -325,6 +325,8 @@ fn test_conj() {
         GodanSu: Passive Potential => "されられる"
         GodanRu: TeOku => "っておく"
         GodanRu: Toku Imperative => "っとけ"
+        // かきけされたって
+        GodanSu: Passive Ta => "された"
     }
 }
 

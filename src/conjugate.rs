@@ -33,6 +33,8 @@ impl Root {
                     Step::Te => text.push('て'),
                     // Another patched up test failure
                     Step::Potential => text.push_str("られる"),
+                    // もしかして…
+                    Step::Ta => text.push('た'),
                     _ => text.push_str("###BUG###"),
                 }
                 continue;
